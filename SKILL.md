@@ -1,30 +1,35 @@
 ---
 name: edu-dev-toolkit
-description: "Educator toolkit: school ops, ponytail code, Obsidian notes."
-version: "1.0.0"
+description: "Educator toolkit: school ops, build apps, reasoning, Kurikulum Merdeka."
+version: "2.0.0"
 author: Hermes Agent
 license: MIT
 hermes:
-  tags: [education, school, users, report, dashboard, ponytail, obsidian, notes]
+  tags: [education, school, users, report, dashboard, ponytail, obsidian, notes, build, reasoning, kurikulum-merdeka]
   related_skills: []
 metadata:
   hermes:
-    tags: [education, school, users, report, dashboard, ponytail, obsidian, notes]
+    tags: [education, school, users, report, dashboard, ponytail, obsidian, notes, build, reasoning, kurikulum-merdeka]
     related_skills: []
 category: edu-dev
 ---
 
 # Edu Dev Toolkit
 
-Toolkit terpadu untuk pendidik yang merawat sistem web sekolah: operasikan data sekolah,
-bangun fitur dengan cara paling simpel, dan dokumentasikan pengetahuan. Tiga pilar:
+Toolkit terpadu untuk pendidik yang merawat sistem web sekolah DAN membantu proses
+belajar-mengajar. Enam pilar:
 
 - **Part A — School Operations**: kelola akun guru/staf, buat laporan, jalankan dashboard aman.
 - **Part B — Build Simply (Ponytail)**: filosofi kode paling pendek yang tetap bekerja.
 - **Part C — Knowledge & Notes (Obsidian)**: simpan & cari catatan di vault.
+- **Part D — Building Educational Apps**: rancang & bangun aplikasi/web pembelajaran simpel & berdampak.
+- **Part E — Reasoning & Thinking**: berpikir terstruktur, jawab pertanyaan pedagogik & teknis dengan relevan.
+- **Part F — Kurikulum Merdeka (Indonesia)**: rujukan saat ditanya kebijakan, struktur, & implementasi Kurmer.
 
 Gunakan saat: mengelola akun sekolah, membuat rekap nilai/absen, mengaudit keamanan
-dashboard, menulis/menyederhanakan kode fitur sekolah, atau mendokumentasikan sistem.
+dashboard, menulis/menyederhanakan kode fitur sekolah, mendokumentasikan sistem,
+membangun aplikasi pembelajaran, menjawab pertanyaan guru/siswa secara rasional, atau
+menjawab soal seputar Kurikulum Merdeka.
 
 ## When to Use
 - Mengelola akun guru/staf, reset password, nonaktifkan user (Part A1).
@@ -32,6 +37,9 @@ dashboard, menulis/menyederhanakan kode fitur sekolah, atau mendokumentasikan si
 - Menjalankan dashboard per role atau audit keamanan (A3).
 - Menulis/menyederhanakan kode sistem sekolah (Part B / Ponytail).
 - Mendokumentasikan arsitektur/SOP/audit di vault (Part C / Obsidian).
+- Merancang/membangun aplikasi atau fitur pembelajaran (Part D).
+- Menjawab pertanyaan guru/siswa dengan penalaran jelas & relevan (Part E).
+- Menjawab pertanyaan seputar Kurikulum Merdeka (Part F).
 
 ======================================================================
 ## PART A — SCHOOL OPERATIONS
@@ -144,12 +152,113 @@ Gunakan Obsidian untuk mendokumentasikan arsitektur dashboard, catatan audit, da
 SOP sekolah — lalu tautkan ke sesi kerja di Part A.
 
 ======================================================================
+## PART D — BUILDING EDUCATIONAL APPS
+======================================================================
+Membangun aplikasi/fitur pembelajaran yang simpel, berdampak, dan mudah dirawat.
+Gabungkan dengan Part B (Ponytail) agar tidak over-engineered.
+
+### Prinsip
+- Mulai dari masalah nyata guru/siswa, bukan fitur yang "keren". Ukur dulu, bangun
+  sesudahnya. (Ponytail rung 1: perlu ada?)
+- Satu fitur = satu alur kerja. Jangan gabungkan modul yang tak berkaitan.
+- Gunakan stack yang sudah dikuasai sekolah (di kasus ini: PHP native + MySQL/Laragon).
+  Jangan pindah framework hanya demi tren.
+- UI jelas untuk pengguna non-teknis: guru & siswa SD. Hindari jargon, tombol besar,
+  alur linear.
+
+### Siklus build (ringkas)
+1. **Tentukan scope**: input → proses → output. Tulis 1 paragraf.
+2. **Sketsa data**: tabel apa yang perlu ada (rujuk `references/db_schema.sql`).
+3. **Bangun MVP**: 1 halaman kerja > 5 halaman setengah jadi.
+4. **Uji dengan data nyata**: 1 siswa beneran > 100 baris unit test palsu.
+5. **Deploy staging → live** (ikuti runbook Part A3).
+
+### Contoh fitur edukasi siap bangun
+- Kuis interaktif per mapel (PG/isian/essay) — lihat `templates/user_crud.php` pola.
+- Game edukatif (ular tangga, kuis papan) — motifasi siswa, simpan skor di `tb_hasil`.
+- Rekap nilai otomatis (Part A2) dengan export PDF/CSV untuk wali murid.
+- Modul projek penguatan profil pelajar (Pancasila) — lihat Part F.
+
+### Pitfalls
+- Bangun LMS lengkap padahal butuh cuma 1 form. (YAGNI)
+- Stack baru yang tak ada yang bisa rawat di sekolah.
+- UI dibuat untuk developer, bukan guru SD.
+
+======================================================================
+## PART E — REASONING & THINKING
+======================================================================
+Berpikir terstruktur & memberi jawaban relevan saat guru/siswa bertanya — baik soal
+pedagogik maupun teknis. Hindari jawaban normatif yang tak berguna.
+
+### Kerangka jawab (saat ditanya)
+1. **Klarifikasi konteks** singkat bila ambigu (kelas? mapel? tujuan?). Jangan tebak
+   langsung bila salah arah merugikan.
+2. **Pisahkan fakta vs opini**. Kalau kebijakan (mis. Kurmer), sebut sumber/landasan.
+3. **Berikan jawaban langsung dulu**, lalu penjelasan. Jangan berputar sebelum poin.
+4. **Berikan langkah konkret** (bukan "sebaiknya"). Kalau bisa jadi kode/query/template,
+   berikan.
+5. **Sebut batasan** — kapan pendekatan ini salah, apa yang tak dicover.
+
+### Pola penalaran
+- **Cause→Effect**: "X terjadi karena Y, maka perbaikinya dengan Z."
+- **Trade-off**: "Opsi A lebih simpel tapi X; opsi B cover X tapi lebih berat. Untuk
+  sekolah kecil, pilih A."
+- **First-principles**: turunkan dari tujuan belajar, bukan dari apa yang sudah ada.
+
+### Jangan
+- Jawab "tergantung" tanpa memberi kriteria keputusan.
+- Beri validasi kosong ("ide bagus!") tanpa substansi.
+- Campur opini tak berbasis bukti ke dalam fakta kebijakan.
+
+### Untuk siswa (penjelasan sederhana)
+Gunakan analogi kehidupan nyata, kalimat pendek, hindari istilah asing tanpa penjelasan.
+Sesuai tahap SD/SMP.
+
+======================================================================
+## PART F — KURIKULUM MERDEKA (INDONESIA)
+======================================================================
+Rujukan saat ditanya kebijakan, struktur, & implementasi Kurikulum Merdeka (Kurmer).
+Gunakan dengan Part E (reasoning) — beri jawaban berbasis landasan, bukan asumsi.
+
+### Konsep kunci (fakta, bukan opini)
+- **Paradigma**: dari konten sentral ke **kompetensi & profil pelajar Pancasila**.
+- **Pembelajaran**: berbasis **projek** (P5 = Projek Penguatan Profil Pelajar Pancasila),
+  bukan hanya mata pelajaran kognitif.
+- **Inti struktur**:
+  - **CP** (Capaian Pembelajaran) — apa yang diharapkan capai di akhir fase.
+  - **TP** (Tujuan Pembelajaran) — turunan harian/mingguan dari CP.
+  - **ATP** (Alur Tujuan Pembelajaran) — urutan capaian per fase.
+  - **Modul Ajar** & **Elemen Capaian** per mata pelajaran.
+- **Fase**, bukan kelas: Fase A (RA), B (SD 1-2), C (SD 3-4), D (SD 5-6), E (SMP), F (SMA).
+- **Rapor**: narasi + profil pelajar, bukan cuma angka. Asesmen formatif > sumatif.
+- **Platform resmi**: [Merdeka Mengajar](https://merdekamengajar.kemdikbud.go.id),
+  [PMM /kurikulum.kemdikbud.go.id](https://kurikulum.kemdikbud.go.id).
+
+### Saat guru bertanya "bagaimana menerapkan X di Kurmer"
+1. Petakan ke CP/TP mata pelajaran & fase terkait.
+2. Sarankan projek nyata (P5) bila memungkinkan — belajar lewat pengalaman.
+3. Untuk asesmen: pakai formatif, beri umpan balik, jangan cuma angka.
+4. Hindari "menghapus K13 langsung" — transisi bertahap, sekolah bisa pilih
+   (Kurmer/Mandiri, Mandiri Berubah, Mandiri Berbagi, dll).
+
+### Bantuan teknis untuk Kurmer
+- Template modul ajar & TP bisa didokumentasikan di Obsidian (Part C).
+- Rekap projek P5 → simpan di `tb_hasil` dengan `tipe_soal='essay'`/projek (rujuk A2).
+- Aplikasi sekolah (dashboard/nilai) tetap relevan: tampilkan profil pelajar, bukan
+  hanya nilai angka (lihat Part D).
+
+### Batasan
+- Aturan Kurmer bisa berubah per regulasi Kemdikbud. Verifikasi ke platform resmi
+  sebelum memberi angka pasti ke guru. Skill ini ringkasan, bukan pengganti regulasi.
+
+======================================================================
 ## Catatan Penggunaan
 ======================================================================
-- Tiga pilar independen: pakai yang relevan. Mau CRUD akun → A1. Refactor kode → B.
-  Catat temuan → C.
+- Enam pilar independen: pakai yang relevan. CRUD akun → A1. Refactor → B. Catat → C.
+  Bangun app → D. Jawab pertanyaan → E. Kurmer → F.
 - Semua contoh generik (PHP/MySQL). Sesuaikan nama tabel/kolom dengan sistemmu.
 - Keamanan & backup mutlak di Part A; jangan "ponytail" away validasi/backup.
+- Part E berlaku untuk semua pilar: jawab langsung, beri langkah konkret, sebut batas.
 
 ======================================================================
 ## Reference & Template Files (di folder skill)
@@ -162,12 +271,15 @@ File pendukung siap pakai (copy-paste, lalu sesuaikan):
 - `references/security_checklist.md` — checklist audit keamanan dashboard (Part A3).
   Centang tiap item sebelum rilis / setelah perubahan.
 - `references/ponytail_examples.md` — before/after refactor kode sekolah (Part B).
+- `references/kurikulum_merdeka.md` — ringkasan konsep & istilah Kurmer untuk rujukan cepat (Part F).
+- `references/build_app_checklist.md` — checklist rancang & bangun aplikasi edukasi (Part D).
 
 ### templates/
 - `templates/user_crud.php` — template CRUD akun guru/staf (hash password, soft
   delete, guard role, reset password). Tambahkan CSRF per Part A3.
 - `templates/report_nilai.sql` — query rekap nilai berbobot & absen (bobot dari DB).
 - `templates/obsidian_note.md` — template catatan audit/SOP Obsidian (dengan wikilink).
+- `templates/modul_ajar.md` — template modul ajar / TP Kurikulum Merdeka (Part F).
 
 Cara pakai: saat tugas masuk, baca file di atas via skill_manage(file_path=...) lalu
 sesuaikan ke sistem sekolahmu.
