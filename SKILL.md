@@ -281,6 +281,31 @@ Isi Info | Tindak Lanjut | Status | PJ`.
 - Filter kolom `Status` untuk lacak yang "Belum ditindak".
 - Ubah path lewat env `INFO_DINAS_XLSX` bila sekolah pakai drive/folder lain.
 
+### (Opsional) Auto-scrape situs resmi dinas
+Bila ingin info masuk otomatis tanpa ketik manual, jalankan scraper berkala
+(cron / Task Scheduler) yang membaca pengumuman di situs web dinas lalu menulis
+ke sheet yang sama.
+
+- Script: `scripts/scrape_dinas.py`
+  - `python scripts/scrape_dinas.py --dry-run` — lihat item ketemu, tanpa menulis.
+  - `python scripts/scrape_dinas.py` — tulis item baru ke xlsx (dedup otomatis).
+  - `python scripts/scrape_dinas.py --config path.json` — pakai config lain.
+  - `python scripts/scrape_dinas.py --list` — list sumber terkonfigurasi.
+- Konfigurasi: `dinas_sources.example.json` (salin jadi `dinas_sources.json`,
+  isi `url` + selektor `container/title/date/summary` sesuai struktur situs).
+  Tiap sumber = 1 entry JSON array. Cocok untuk dinas yang **hanya punya halaman
+  HTML biasa** (tanpa RSS/API).
+- Dedup: hash (sumber+judul+url) disimpan di `scripts/.scrape_state.json`,
+  sehingga tiap info hanya tercatat sekali walau scraper jalan tiap jam.
+- Dependency: `requests` (fetch) + `html.parser` stdlib. Tidak perlu bs4/pip.
+
+Pitfall scraper web:
+- Struktur situs dinas bisa berubah → selektor harus dikalibrasi ulang.
+- Situs JS-berat (konten render lewat JS) tidak terbaca `requests` biasa; perlu
+  browser headless (di luar scope script ini). Prefer situs yang kontennya ada
+  di HTML sumber.
+- Jangan scrape situs yang butuh login tanpa izin.
+
 ### Contoh panggilan (Hermes)
 ```
 echo '{"isi":"Panduan Asesmen Madrasah","sumber":"Kemendikdasmen",

@@ -1,0 +1,11 @@
+[
+  {
+    "name": "Disdik Provinsi X",
+    "url": "https://disdik.example.go.id/pengumuman",
+    "container": {"tag": "div", "class": "artikel"},
+    "title":     {"tag": "a"},
+    "date":      {"tag": "span", "class": "tanggal"},
+    "summary":   {"tag": "p", "class": "ringkas"},
+    "kategori":  "Surat Edaran"
+  }
+]

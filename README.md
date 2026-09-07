@@ -32,7 +32,9 @@ edu-dev-toolkit/
 │   ├── build_app_checklist.md   # Checklist rancang & bangun aplikasi edukasi (Part D)
 │   └── prompt_tendik.md         # 10 prompt siap-salin untuk tendik non-teknis
 ├── scripts/
-│   └── catat_info_dinas.py      # (Part G) append info dinas ke Excel (.xlsx) lokal
+│   ├── catat_info_dinas.py      # (Part G) append info dinas ke Excel (.xlsx) lokal
+│   └── scrape_dinas.py          # (Part G) auto-scrape pengumuman web dinas -> xlsx
+├── dinas_sources.example.json   # Contoh konfigurasi sumber scrape
 └── templates/
     ├── user_crud.php            # Template CRUD akun guru/staf (prepared stmt + CSRF + guard)
     ├── report_nilai.sql         # Query rekap nilai berbobot & absen

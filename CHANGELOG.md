@@ -8,11 +8,16 @@
   Terima JSON di stdin (field: isi, tanggal_info, sumber, kategori,
   tindak_lanjut, status, pj, xlsx). Path default env `INFO_DINAS_XLSX` /
   `D:/2026-2027/info_dinas.xlsx`. Bukan JSON → seluruh teks = isi.
+- `scripts/scrape_dinas.py`: auto-scrape pengumuman dari situs web dinas (halaman
+  HTML biasa, tanpa RSS/API) lalu tulis ke sheet yang sama. Dedup via hash di
+  `scripts/.scrape_state.json`. Dep: requests + html.parser stdlib (tanpa bs4/pip).
+- `dinas_sources.example.json`: contoh konfigurasi sumber scrape (URL + selektor).
 - Kolom sheet: No | Tanggal Catat | Tanggal Info | Sumber | Kategori |
   Isi Info | Tindak Lanjut | Status | PJ.
 
 ### Changed
-- SKILL.md: tambah Part G; version → 2.2.0.
+- SKILL.md: tambah Part G (manual + sub-bagian auto-scrape); version → 2.2.0.
+- `.gitignore`: abaikan state scraper, fixture uji, dan output *.xlsx.
 
 ## [2.1.0] - 2026-09-05
 ### Added

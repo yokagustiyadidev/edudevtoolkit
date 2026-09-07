@@ -10,3 +10,13 @@ desktop.ini
 *.tmp
 *.bak
 ~*.docx
+
+# Scraper state (lokal, berisi hash riwayat)
+scripts/.scrape_state.json
+
+# Fixture uji lokal (tidak untuk distribusi)
+tests_fixture/
+
+# Output spreadsheet guru (berisi data nyata sekolah)
+info_dinas.xlsx
+*.xlsx
