@@ -1,0 +1,193 @@
+{
+  "page": { "width_mm": 210, "height_mm": 297, "margins_mm": { "top": 25, "bottom": 25, "left": 25, "right": 25 } },
+  "footer_page_numbers": true,
+  "styles": [
+    { "name": "JudulModul", "base": "Normal", "font": "Times New Roman", "size_pt": 16, "bold": true, "color": "1F3864" },
+    { "name": "SubJudul", "base": "Normal", "font": "Times New Roman", "size_pt": 12, "bold": true, "color": "1F3864" }
+  ],
+  "blocks": [
+    { "type": "heading", "level": 1, "text": "MODUL AJAR KURIKULUM MERDEKA" },
+    { "type": "paragraph", "text": "Mata Pelajaran: Informatika" },
+    { "type": "paragraph", "text": "Elemen: Berpikir Komputasional (BK)" },
+    { "type": "paragraph", "text": "Fase / Kelas: D / VI (Enam)" },
+    { "type": "paragraph", "text": "Alokasi Waktu: 2 pertemuan (masing-masing 2 x 35 menit = 4 JP)" },
+
+    { "type": "heading", "level": 1, "text": "BAGIAN I - INFORMASI UMUM" },
+    { "type": "heading", "level": 2, "text": "1. Identitas Modul" },
+    { "type": "numbered_list", "items": [
+      "Nama Modul: Berkenalan dengan Berpikir Komputasional - Memecah Masalah dan Menemukan Pola",
+      "Mata Pelajaran: Informatika",
+      "Elemen Capaian: Berpikir Komputasional",
+      "Fase: D (SD Kelas 5-6)",
+      "Kelas / Semester: VI / Ganjil (dapat disesuaikan)",
+      "Alokasi Waktu: 2 pertemuan, masing-masing 70 menit (2 x 35 menit)",
+      "Tahun Penyusunan: 2026"
+    ] },
+    { "type": "heading", "level": 2, "text": "2. Kompetensi Awal" },
+    { "type": "numbered_list", "items": [
+      "Peserta didik telah mampu mengurutkan kegiatan sehari-hari secara logis (misalnya urutan berangkat sekolah).",
+      "Peserta didik telah mampu mengenali urutan benda secara sederhana.",
+      "Peserta didik telah mampu mengikuti perintah langkah demi langkah yang diberikan guru."
+    ] },
+    { "type": "heading", "level": 2, "text": "3. Profil Pelajar Pancasila yang Dituju" },
+    { "type": "numbered_list", "items": [
+      "Bernalar Kritis - memecah masalah, mencari pola, dan menyusun langkah logis.",
+      "Kreatif - menemukan cara baru dalam menyelesaikan tugas melalui algoritma.",
+      "Mandiri - melaksanakan langkah penyelesaian masalah secara bertanggung jawab."
+    ] },
+    { "type": "heading", "level": 2, "text": "4. Sarana dan Prasarana" },
+    { "type": "numbered_list", "items": [
+      "Ruang kelas dengan tempat duduk yang memungkinkan kerja berpasangan.",
+      "Kertas HVS, alat tulis, gunting, lem (kegiatan unplugged).",
+      "Kartu bergambar / blok warna untuk permainan pola.",
+      "LKPD (terlampir) yang telah dicetak untuk tiap peserta didik.",
+      "Papan tulis dan kapur/spidol."
+    ] },
+    { "type": "heading", "level": 2, "text": "5. Target Peserta Didik" },
+    { "type": "numbered_list", "items": [
+      "Peserta didik kelas VI (usia 11-12 tahun).",
+      "Kemampuan membaca dan menulis dasar sudah terpenuhi.",
+      "Belum memerlukan pengalaman pemrograman komputer."
+    ] },
+    { "type": "heading", "level": 2, "text": "6. Model Pembelajaran" },
+    { "type": "numbered_list", "items": [
+      "Project-Based / Problem-Based dengan pendekatan unplugged (tanpa komputer) dan semi-plugged.",
+      "Pembelajaran kolaboratif: peserta didik bekerja berpasangan atau kelompok kecil.",
+      "Permainan peran sederhana (misalnya permainan Robot) untuk memahami algoritma."
+    ] },
+
+    { "type": "heading", "level": 1, "text": "BAGIAN II - KOMPONEN INTI" },
+    { "type": "heading", "level": 2, "text": "1. Tujuan Pembelajaran (TP)" },
+    { "type": "paragraph", "text": "Setelah mengikuti 2 pertemuan, peserta didik mampu:" },
+    { "type": "numbered_list", "items": [
+      "Pertemuan 1 - Menjelaskan pengertian dekomposisi dan mengidentifikasi cara memecah masalah sederhana ke dalam bagian-bagian kecil yang lebih mudah dikerjakan.",
+      "Pertemuan 1 - Mengenali pola (pengulangan yang teratur) pada susunan benda, gambar, atau urutan kejadian sederhana.",
+      "Pertemuan 2 - Melakukan abstraksi dengan memilih informasi penting dan mengabaikan detail yang tidak perlu dari suatu masalah.",
+      "Pertemuan 2 - Menyusun algoritma sederhana berupa urutan langkah penyelesaian masalah dalam bentuk tulisan atau gambar."
+    ] },
+    { "type": "heading", "level": 2, "text": "2. Pemahaman Bermakna" },
+    { "type": "numbered_list", "items": [
+      "Berpikir komputasional bukan tentang menggunakan komputer, melainkan cara berpikir sistematis untuk menyelesaikan masalah.",
+      "Masalah besar menjadi lebih mudah diselesaikan bila dipecah menjadi bagian kecil (dekomposisi).",
+      "Banyak masalah memiliki pola berulang yang dapat dimanfaatkan (pengenalan pola).",
+      "Menyederhanakan masalah dengan mengambil inti permasalahan membantu fokus (abstraksi).",
+      "Menyusun langkah demi langkah yang jelas akan menghasilkan cara kerja yang tepat (algoritma)."
+    ] },
+    { "type": "heading", "level": 2, "text": "3. Pertanyaan Pemantik" },
+    { "type": "numbered_list", "items": [
+      "Jika kamu disuruh membersihkan kelas sendirian, dari mana kamu mulai?",
+      "Apakah kamu pernah melihat pola pada ubin lantai atau pada ritme lagu?",
+      "Mengapa resep masakan selalu ditulis urutannya?",
+      "Apa yang terjadi jika robot hanya mengikuti perintah yang salah urutannya?"
+    ] },
+    { "type": "heading", "level": 2, "text": "4. Kegiatan Pembelajaran" },
+    { "type": "paragraph", "text": "PERTEMUAN 1 - Dekomposisi dan Pengenalan Pola (Alokasi: 70 menit)" },
+    { "type": "paragraph", "text": "A. Pembuka (5 menit)" },
+    { "type": "numbered_list", "items": [
+      "Guru menyapa dan menanyakan kegiatan peserta didik sebelum berangkat sekolah.",
+      "Guru menampilkan pertanyaan pemantik: Bagaimana cara membuat mie instan dengan benar?",
+      "Beberapa peserta didik diminta menyebutkan langkah-langkahnya secara lisan.",
+      "Guru menyimpulkan bahwa setiap pekerjaan tersusun dari langkah-langkah kecil."
+    ] },
+    { "type": "paragraph", "text": "B. Inti (55 menit)" },
+    { "type": "numbered_list", "items": [
+      "Pengenalan Dekomposisi (20 menit): guru menjelaskan dekomposisi = memecah masalah besar menjadi bagian kecil. Contoh: mempersiapkan bekal sekolah dipecah menjadi (a) menyiapkan kotak, (b) memilih lauk, (c) memasukkan buah, (d) menutup kotak. Peserta didik berpasangan mengisi LKPD 1 bagian A.",
+      "Pengenalan Pola (20 menit): guru menunjukkan deret kartu bergambar merah-biru-merah-biru. Peserta didik meneruskan deret dan menyebutkan yang berulang. Diskusi: pola membantu menebak kelanjutan.",
+      "Permainan Pola Berurutan (15 menit): tiap kelompok menyusun deret gambar agar punya pola, kelompok lain menebak polanya."
+    ] },
+    { "type": "paragraph", "text": "C. Penutup (10 menit)" },
+    { "type": "numbered_list", "items": [
+      "Guru meminta 2-3 peserta didik menyebutkan kembali arti dekomposisi dan pola.",
+      "Peserta didik mengumpulkan LKPD 1.",
+      "Guru memberi pengayaan ringan: cari satu pola di rumah malam ini."
+    ] },
+    { "type": "paragraph", "text": "PERTEMUAN 2 - Abstraksi dan Algoritma Sederhana (Alokasi: 70 menit)" },
+    { "type": "paragraph", "text": "A. Pembuka (5 menit)" },
+    { "type": "numbered_list", "items": [
+      "Review singkat: guru bertanya apa itu dekomposisi dan apa itu pola.",
+      "Peserta didik menjawab secara lisan."
+    ] },
+    { "type": "paragraph", "text": "B. Inti (55 menit)" },
+    { "type": "numbered_list", "items": [
+      "Abstraksi (15 menit): guru menjelaskan abstraksi = mengambil informasi penting, mengabaikan yang tidak perlu. Contoh: dari gambar pemandangan ramai, ambil jalan, sungai, jembatan untuk peta sederhana. Peserta didik mengisi LKPD 2 bagian A.",
+      "Menyusun Algoritma (25 menit): guru menjelaskan algoritma = urutan langkah. Contoh: mengambil air minum (1) ambil gelas, (2) dekat ke dispenser, (3) tekan tombol, (4) bawa kembali. Permainan Robot: satu siswa jadi robot yang hanya ikut perintah. Peserta didik menyusun algoritma cara mencuci tangan pada LKPD 2 bagian B (min 4 langkah).",
+      "Studi Kasus Permainan (15 menit): guru memberi studi kasus menyusun algoritma permainan gobak sodor versi sederhana, kelompok kecil menyusun lalu membacakan di depan kelas."
+    ] },
+    { "type": "paragraph", "text": "C. Penutup (10 menit)" },
+    { "type": "numbered_list", "items": [
+      "Guru merangkum keempat konsep: dekomposisi, pola, abstraksi, algoritma.",
+      "Peserta didik merefleksi: konsep mana yang paling mudah / paling sulit.",
+      "Guru mengumpulkan LKPD 2 dan memberi umpan balik."
+    ] },
+    { "type": "heading", "level": 2, "text": "5. Asesmen dan Rubrik Penilaian" },
+    { "type": "paragraph", "text": "Teknik: Observasi kinerja dan penilaian LKPD. Bentuk: rubrik sederhana berbasis deskripsi." },
+    { "type": "paragraph", "text": "Indikator dan level:" },
+    { "type": "numbered_list", "items": [
+      "Mampu memecah masalah (dekomposisi): Sangat Baik (>=4 langkah logis urut); Baik (2-3 langkah cukup logis); Cukup (kurang lengkap namun dipahami); Perlu Bimbingan (belum mampu).",
+      "Mampu mengenali pola: Sangat Baik (temukan & teruskan deret tepat); Baik (dengan sedikit bimbingan); Cukup (tebak kurang tepat namun mencoba); Perlu Bimbingan (belum mengenali).",
+      "Mampu menyederhanakan (abstraksi): Sangat Baik (pilih info penting, abaikan tak perlu); Baik (dengan bimbingan); Cukup (masih banyak detail tak perlu); Perlu Bimbingan (belum bedakan).",
+      "Mampu menyusun algoritma: Sangat Baik (urutan jelas, lengkap, dpt diikuti); Baik (cukup jelas); Cukup (kurang lengkap namun mengarah tujuan); Perlu Bimbingan (langkah acak/tak logis)."
+    ] },
+    { "type": "paragraph", "text": "Catatan asesmen: gunakan pendekatan formatif - beri umpan balik lisan di akhir tiap pertemuan, bukan hanya skor akhir." },
+    { "type": "heading", "level": 2, "text": "6. Pengayaan dan Remedial" },
+    { "type": "paragraph", "text": "Pengayaan (peserta didik cepat):" },
+    { "type": "numbered_list", "items": [
+      "Menyusun algoritma permainan ciptaan sendiri dengan >=6 langkah.",
+      "Mencari pola lebih kompleks (dua warna bergantian dengan selisih berubah)."
+    ] },
+    { "type": "paragraph", "text": "Remedial (peserta didik perlu bimbingan):" },
+    { "type": "numbered_list", "items": [
+      "Bimbingan individu dengan contoh lebih konkret (urutan berpakaian pagi hari).",
+      "Menggunakan kartu bergambar berwarna terang agar pola lebih mudah terlihat.",
+      "Melatih menyusun algoritma 3 langkah sederhana dulu sebelum lanjut ke 4-5 langkah."
+    ] },
+
+    { "type": "heading", "level": 1, "text": "BAGIAN III - LAMPIRAN" },
+    { "type": "heading", "level": 2, "text": "Lampiran 1 - LKPD 1 (Pertemuan 1)" },
+    { "type": "paragraph", "text": "A. Dekomposisi - Membersihkan Meja Belajar" },
+    { "type": "numbered_list", "items": [
+      "Tuliskan 4 langkah kecil untuk membersihkan meja belajarmu:",
+      "1) ________________________________",
+      "2) ________________________________",
+      "3) ________________________________",
+      "4) ________________________________"
+    ] },
+    { "type": "paragraph", "text": "B. Pengenalan Pola - Lanjutkan Deretan" },
+    { "type": "numbered_list", "items": [
+      "Perhatikan deret: Merah, Biru, Merah, Biru, ___, ___, ___.",
+      "Sebutkan apa yang berulang: ________________________"
+    ] },
+    { "type": "heading", "level": 2, "text": "Lampiran 2 - LKPD 2 (Pertemuan 2)" },
+    { "type": "paragraph", "text": "A. Abstraksi - Peta Ruang Kelas" },
+    { "type": "numbered_list", "items": [
+      "Pilih 3 benda PENTING lalu tuliskan:",
+      "1) ________________________________",
+      "2) ________________________________",
+      "3) ________________________________",
+      "Benda yang diabaikan karena tidak perlu: __________________"
+    ] },
+    { "type": "paragraph", "text": "B. Algoritma - Cara Mencuci Tangan" },
+    { "type": "numbered_list", "items": [
+      "Susunlah langkah-langkahnya (minimal 4 langkah):",
+      "1) ________________________________",
+      "2) ________________________________",
+      "3) ________________________________",
+      "4) ________________________________"
+    ] },
+    { "type": "heading", "level": 2, "text": "Lampiran 3 - Bahan Bacaan Singkat" },
+    { "type": "paragraph", "text": "Untuk Guru:" },
+    { "type": "paragraph", "text": "Berpikir komputasional terdiri dari empat pilar: dekomposisi, pengenalan pola, abstraksi, dan algoritma. Untuk peserta didik SD kelas 6, penyampaian sebaiknya selalu dikaitkan dengan kegiatan nyata (memasak, membersihkan, bermain) agar konsep abstrak menjadi konkret. Hindari pemrograman berat; fokus pada cara berpikir." },
+    { "type": "paragraph", "text": "Untuk Siswa:" },
+    { "type": "paragraph", "text": "Bayangkan otakmu seperti seorang koki yang menata dapur sebelum memasak. Koki memecah pekerjaan besar menjadi langkah kecil (dekomposisi), melihat pola bumbu yang berulang (pola), mengambil bahan penting saja (abstraksi), dan mengikuti resep langkah demi langkah (algoritma). Itulah berpikir komputasional - cara berpikir yang dipakai ilmuwan komputer, namun berguna untuk semua orang." },
+    { "type": "heading", "level": 2, "text": "Lampiran 4 - Glosarium" },
+    { "type": "numbered_list", "items": [
+      "Berpikir Komputasional: cara berpikir sistematis untuk menyelesaikan masalah dengan memecah, mencari pola, menyederhanakan, dan menyusun langkah.",
+      "Dekomposisi: memecah masalah besar menjadi bagian-bagian kecil yang lebih mudah dikerjakan.",
+      "Pola: susunan yang berulang secara teratur sehingga dapat ditebak kelanjutannya.",
+      "Abstraksi: mengambil informasi penting dan mengabaikan detail yang tidak perlu.",
+      "Algoritma: urutan langkah-langkah penyelesaian suatu masalah.",
+      "Unplugged: kegiatan belajar tanpa menggunakan komputer."
+    ] },
+    { "type": "paragraph", "text": "Catatan penyusun: Capaian Pembelajaran (CP) untuk elemen Berpikir Komputasional Fase D agar divalidasi melalui platform resmi Kemdikbud (kurikulum.kemdikbud.go.id / Merdeka Mengajar) sebelum modul diajarkan, mengingat regulasi Kurikulum Merdeka dapat diperbarui." }
+  ]
+}

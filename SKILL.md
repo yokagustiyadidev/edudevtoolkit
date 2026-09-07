@@ -70,7 +70,7 @@ before/after, scope persis.
 RESET PASSWORD: hash baru + flag `must_change_pw=1`. Jangan tulis plaintext ke log.
 
 ### A2. Laporan Sekolah (Rekap Nilai / Absen)
-Sumber: `tb_hasil`/`tb_nilai` (id_siswa, id_mapel, poin, tipe_soal), `tb_siswa`,
+Sumber: `tb_hasil` (id_siswa, id_mapel, poin, tipe_soal), `tb_siswa`,
 `tb_mapel` (bobot), `tb_absen` (status: hadir/izin/sakit/alpa).
 
 Pola: `AVG(poin) GROUP BY id_siswa, id_mapel`. Bobot tipe (PG=1, isian=3, essay=5)
@@ -273,13 +273,20 @@ File pendukung siap pakai (copy-paste, lalu sesuaikan):
 - `references/ponytail_examples.md` — before/after refactor kode sekolah (Part B).
 - `references/kurikulum_merdeka.md` — ringkasan konsep & istilah Kurmer untuk rujukan cepat (Part F).
 - `references/build_app_checklist.md` — checklist rancang & bangun aplikasi edukasi (Part D).
+- `references/prompt_tendik.md` — 10 prompt siap-salin berbahasa Indonesia untuk
+  tendik non-teknis (copy-paste ke Hermes, skill jalan otomatis).
 
 ### templates/
-- `templates/user_crud.php` — template CRUD akun guru/staf (hash password, soft
-  delete, guard role, reset password). Tambahkan CSRF per Part A3.
+- `templates/user_crud.php` — PRODUCTION-READY: CRUD akun guru/staf dengan
+  prepared statement, CSRF token, guard role self-contained (session PHP), soft
+  delete, reset password. Tanpa dependency eksternal — langsung bisa di-run.
 - `templates/report_nilai.sql` — query rekap nilai berbobot & absen (bobot dari DB).
 - `templates/obsidian_note.md` — template catatan audit/SOP Obsidian (dengan wikilink).
 - `templates/modul_ajar.md` — template modul ajar / TP Kurikulum Merdeka (Part F).
+- `templates/Modul_Ajar_Informatika_Kelas6.docx` — CONTOH HASIL NYATA: modul ajar
+  Informatika Kelas 6 (Berpikir Komputasional) lengkap + LKPD + rubrik penilaian.
+- `templates/modul_ajar_informatika_spec.json` — spec generator (mesin docx) untuk
+  modul di atas; rujuk untuk membuat modul serupa secara terprogram.
 
 Cara pakai: saat tugas masuk, baca file di atas via skill_manage(file_path=...) lalu
 sesuaikan ke sistem sekolahmu.

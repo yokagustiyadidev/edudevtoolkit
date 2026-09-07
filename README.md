@@ -28,12 +28,15 @@ edu-dev-toolkit/
 │   ├── security_checklist.md    # Checklist audit keamanan dashboard
 │   ├── ponytail_examples.md     # Contoh refactor kode sekolah (before/after)
 │   ├── kurikulum_merdeka.md     # Ringkasan konsep & istilah Kurmer (Part F)
-│   └── build_app_checklist.md   # Checklist rancang & bangun aplikasi edukasi (Part D)
+│   ├── build_app_checklist.md   # Checklist rancang & bangun aplikasi edukasi (Part D)
+│   └── prompt_tendik.md         # 10 prompt siap-salin untuk tendik non-teknis
 └── templates/
-    ├── user_crud.php            # Template CRUD akun guru/staf
+    ├── user_crud.php            # Template CRUD akun guru/staf (prepared stmt + CSRF + guard)
     ├── report_nilai.sql         # Query rekap nilai berbobot & absen
     ├── obsidian_note.md         # Template catatan audit/SOP Obsidian
-    └── modul_ajar.md            # Template modul ajar / TP Kurikulum Merdeka (Part F)
+    ├── modul_ajar.md            # Template modul ajar / TP Kurikulum Merdeka (Part F)
+    ├── Modul_Ajar_Informatika_Kelas6.docx  # Contoh hasil: modul Informatika Kelas 6
+    └── modul_ajar_informatika_spec.json    # Spec generator modul di atas
 ```
 
 ## Cara Pakai (di Hermes Agent)
