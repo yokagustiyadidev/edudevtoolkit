@@ -11,6 +11,7 @@ belajar-mengajar**. Enam pilar dalam satu skill:
 | **Part D — Building Educational Apps** | Rancang & bangun aplikasi/web pembelajaran simpel & berdampak |
 | **Part E — Reasoning & Thinking** | Berpikir terstruktur, jawab pertanyaan pedagogik & teknis dengan relevan |
 | **Part F — Kurikulum Merdeka (Indonesia)** | Rujukan kebijakan, struktur, & implementasi Kurmer |
+| **Part G — Automation (Info Dinas → Spreadsheet)** | Catat info Dinas/Kemendikdasmen ke Excel lokal otomatis |
 
 Contoh kasus: kelola akun guru, buat rekap nilai, audit keamanan dashboard, refactor
 kode sekolah, dokumentasikan SOP, bangun aplikasi pembelajaran, jawab pertanyaan guru/
@@ -30,6 +31,8 @@ edu-dev-toolkit/
 │   ├── kurikulum_merdeka.md     # Ringkasan konsep & istilah Kurmer (Part F)
 │   ├── build_app_checklist.md   # Checklist rancang & bangun aplikasi edukasi (Part D)
 │   └── prompt_tendik.md         # 10 prompt siap-salin untuk tendik non-teknis
+├── scripts/
+│   └── catat_info_dinas.py      # (Part G) append info dinas ke Excel (.xlsx) lokal
 └── templates/
     ├── user_crud.php            # Template CRUD akun guru/staf (prepared stmt + CSRF + guard)
     ├── report_nilai.sql         # Query rekap nilai berbobot & absen

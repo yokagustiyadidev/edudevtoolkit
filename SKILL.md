@@ -1,7 +1,7 @@
 ---
 name: edu-dev-toolkit
 description: "Educator toolkit: school ops, build apps, reasoning, Kurikulum Merdeka."
-version: "2.0.0"
+version: "2.2.0"
 author: Hermes Agent
 license: MIT
 hermes:
@@ -250,6 +250,46 @@ Gunakan dengan Part E (reasoning) — beri jawaban berbasis landasan, bukan asum
 ### Batasan
 - Aturan Kurmer bisa berubah per regulasi Kemdikbud. Verifikasi ke platform resmi
   sebelum memberi angka pasti ke guru. Skill ini ringkasan, bukan pengganti regulasi.
+
+======================================================================
+## PART G — AUTOMATION: INFO DINAS → SPREADSHEET
+======================================================================
+Otomasi ringkas: saat guru/staf menerima info dari Dinas Pendidikan atau
+Kemendikdasmen (surat edaran, juknis, lomba, kalender), Hermes mencatatnya ke
+satu spreadsheet Excel (.xlsx) lokal — bukan cuma ngobrol lalu lupa.
+
+### Alur
+1. User ketik/forward ke Hermes di Telegram: `catat info dinas: <isi>`
+   (atau `catat info dinas <JSON>` untuk field lengkap).
+2. Hermes jalankan `scripts/catat_info_dinas.py` dengan stdin = teks/JSON.
+3. Script append 1 baris ke `info_dinas.xlsx` (buat file + header bila belum ada).
+4. Hermes balas konfirmasi: `Tercatat no #N: <isi>`.
+
+### Script: `scripts/catat_info_dinas.py`
+- Input: JSON di stdin. Field: `isi` (wajib), `tanggal_info`, `sumber`,
+  `kategori`, `tindak_lanjut`, `status`, `pj`, `xlsx` (override path).
+  Bukan JSON → seluruh teks dianggap `isi`.
+- Output: JSON `{"ok":true,"no":N,"path":"...","tanggal_catat":"..."}`.
+- Path default: env `INFO_DINAS_XLSX` atau `D:/2026-2027/info_dinas.xlsx`.
+- Dependency: `openpyxl` (sudah ada di venv Hermes). Tidak perlu cloud.
+
+Kolom sheet: `No | Tanggal Catat | Tanggal Info | Sumber | Kategori |
+Isi Info | Tindak Lanjut | Status | PJ`.
+
+### Cara pakai oleh tendik (non-teknis)
+- Buka Excel → `D:/2026-2027/info_dinas.xlsx` untuk lihat daftar info masuk.
+- Filter kolom `Status` untuk lacak yang "Belum ditindak".
+- Ubah path lewat env `INFO_DINAS_XLSX` bila sekolah pakai drive/folder lain.
+
+### Contoh panggilan (Hermes)
+```
+echo '{"isi":"Panduan Asesmen Madrasah","sumber":"Kemendikdasmen",
+"kategori":"Juknis","tindak_lanjut":"Sosialisasi ke guru","status":"Proses",
+"pj":"Yoka"}' | python scripts/catat_info_dinas.py
+```
+
+Pitfall: jangan simpan file di folder yang ikut dibackup sekolah tiap hari
+(bisa bentrok lock Excel). Pakai folder khusus arsip dinas.
 
 ======================================================================
 ## Catatan Penggunaan

@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.2.0] - 2026-09-07
+### Added
+- **Part G — Automation: Info Dinas → Spreadsheet**. Hermes mencatat info dari
+  Dinas Pendidikan / Kemendikdasmen ke `info_dinas.xlsx` lokal (append per baris).
+- `scripts/catat_info_dinas.py`: script append baris ke Excel via openpyxl.
+  Terima JSON di stdin (field: isi, tanggal_info, sumber, kategori,
+  tindak_lanjut, status, pj, xlsx). Path default env `INFO_DINAS_XLSX` /
+  `D:/2026-2027/info_dinas.xlsx`. Bukan JSON → seluruh teks = isi.
+- Kolom sheet: No | Tanggal Catat | Tanggal Info | Sumber | Kategori |
+  Isi Info | Tindak Lanjut | Status | PJ.
+
+### Changed
+- SKILL.md: tambah Part G; version → 2.2.0.
+
 ## [2.1.0] - 2026-09-05
 ### Added
 - `references/prompt_tendik.md`: 10 prompt siap-salin berbahasa Indonesia untuk
