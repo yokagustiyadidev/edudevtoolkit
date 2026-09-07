@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.0] - 2026-09-07
+### Added
+- **Part H — Code Structure Audit (Graphify)**. Bundle skill `graphify` (knowledge-graph
+  builder, stdlib-only, no pip/PyPI) ke dalam toolkit supaya tendik dapat 1 paket utuh.
+- `bundled/graphify/graphify.py` + `bundled/graphify/SKILL.md`: ubah folder kode/docs
+  jadi graph (node=file/simbol, edge=import/relasi) dengan god nodes & komunitas.
+  Output `graph.json` + interaktif `graph.html` + `GRAPH_REPORT.md`.
+- SKILL.md: Part H; version → 2.3.0. README struktur: folder `bundled/graphify/`.
+
 ## [2.2.0] - 2026-09-07
 ### Added
 - **Part G — Automation: Info Dinas → Spreadsheet**. Hermes mencatat info dari

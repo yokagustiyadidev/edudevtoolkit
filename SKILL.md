@@ -1,7 +1,7 @@
 ---
 name: edu-dev-toolkit
 description: "Educator toolkit: school ops, build apps, reasoning, Kurikulum Merdeka."
-version: "2.2.0"
+version: "2.3.0"
 author: Hermes Agent
 license: MIT
 hermes:
@@ -313,8 +313,36 @@ echo '{"isi":"Panduan Asesmen Madrasah","sumber":"Kemendikdasmen",
 "pj":"Yoka"}' | python scripts/catat_info_dinas.py
 ```
 
-Pitfall: jangan simpan file di folder yang ikut dibackup sekolah tiap hari
+### Pitfall: jangan simpan file di folder yang ikut dibackup sekolah tiap hari
 (bisa bentrok lock Excel). Pakai folder khusus arsip dinas.
+
+======================================================================
+## PART H — CODE STRUCTURE AUDIT (Graphify)
+======================================================================
+Untuk memahami struktur kode aplikasi sekolah (dashboard, modul pembelajaran)
+SEBELUM refactor atau audit, gunakan **graphify** — ubah folder kode jadi
+knowledge graph (node = file/simbol, edge = import/relasi) lengkap dengan
+god nodes & komunitas terisolasi.
+
+Graphify sudah **dibundle** di skill ini: `bundled/graphify/` (script Python
+stdlib murni, tanpa pip/PyPI). Cara jalan:
+
+```bash
+python bundled/graphify/graphify.py "C:/laragon/www/dashboard" --out hasil_graph
+python bundled/graphify/graphify.py "C:/laragon/www/dashboard" --mode deep
+```
+
+Output di `hasil_graph/`:
+- `graph.json` — graph persisten.
+- `graph.html` — interaktif (klik node, search, filter komunitas). Buka di browser.
+- `GRAPH_REPORT.md` — god nodes, komunitas, audit edge (EXTRACTED/INFERRED).
+
+Skill mandiri `graphify` juga terpasang di Hermes (jalankan bila user bilang
+"graphify <folder>"). Detail lengkap di `bundled/graphify/SKILL.md`.
+
+Batasan (jujur): versi ini murni structural/AST + keyword (tanpa LLM/vision
+seperti package asli). Ekstrak teks/kode/markdown; PDF & gambar tidak dibaca.
+Community detection pakai union-find (cluster kasar), bukan Leiden.
 
 ======================================================================
 ## Catatan Penggunaan

@@ -34,6 +34,10 @@ edu-dev-toolkit/
 ├── scripts/
 │   ├── catat_info_dinas.py      # (Part G) append info dinas ke Excel (.xlsx) lokal
 │   └── scrape_dinas.py          # (Part G) auto-scrape pengumuman web dinas -> xlsx
+├── bundled/
+│   └── graphify/                # (Part H) knowledge-graph builder (stdlib, no pip)
+│       ├── SKILL.md
+│       └── graphify.py
 ├── dinas_sources.example.json   # Contoh konfigurasi sumber scrape
 └── templates/
     ├── user_crud.php            # Template CRUD akun guru/staf (prepared stmt + CSRF + guard)
