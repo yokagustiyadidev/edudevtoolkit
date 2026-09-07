@@ -17,6 +17,11 @@ scripts/.scrape_state.json
 # Fixture uji lokal (tidak untuk distribusi)
 tests_fixture/
 
+# Output graphify (hasil tes/runtime, bukan source)
+bundled/graphify/dashboard_graph/
+graphify-out/
+*_graph/
+
 # Output spreadsheet guru (berisi data nyata sekolah)
 info_dinas.xlsx
 *.xlsx
