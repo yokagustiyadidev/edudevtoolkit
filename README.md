@@ -47,14 +47,29 @@ edu-dev-toolkit/
    refactor kode sekolah, catatan Obsidian, bangun app, Kurikulum Merdeka).
 3. Saat butuh detail, Hermes membaca file di `references/` dan `templates/`.
 
+## Dokumentasi untuk Tendik (Non-Teknis)
+
+- `CARA_PAKAI_TENDIK.md` — panduan 1 halaman: cara install skill ke Hermes &
+  cara memberi perintah sehari-hari. Mulai dari sini kalau bukan programmer.
+- `references/prompt_tendik.md` — 10 prompt siap-salin (copy-paste ke Hermes,
+  ganti teks dalam [ ]).
+
 ## Catatan
 
 - Semua contoh **generik** (PHP/MySQL). Sesuaikan nama tabel/kolom dengan sistemmu.
 - Keamanan & backup mutlak di Part A — jangan "ponytail away" validasi/backup.
+- `templates/user_crud.php` sudah production-ready: prepared statement, CSRF,
+  guard role self-contained. Tanpa dependency eksternal.
 - Part E berlaku untuk semua pilar: jawab langsung, beri langkah konkret, sebut batas.
 - Aturan Kurikulum Merdeka dapat berubah; verifikasi ke platform resmi Kemdikbud
   sebelum memberi angka/aturan pasti. Skill ini ringkasan, bukan pengganti regulasi.
 - Lisensi: MIT. Bebas dipakai, dimodifikasi, dan didistribusikan.
+
+## Keamanan
+
+Lihat `SECURITY.md` untuk cara melapor kerentanan dan standar keamanan yang
+dijaga (password hash, prepared statement, CSRF, session guard, token ujian
+server-side).
 
 ## Kontribusi
 

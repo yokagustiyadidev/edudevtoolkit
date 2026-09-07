@@ -1,0 +1,12 @@
+# Hermes skill internal git (jangan ikut ter-track)
+.git/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Sementara
+*.tmp
+*.bak
+~*.docx
