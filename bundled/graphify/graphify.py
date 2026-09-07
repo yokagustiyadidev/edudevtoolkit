@@ -278,11 +278,7 @@ def write_html(out, nodes, edges, node_comm, comm_list):
     edge_json = json.dumps(edges, ensure_ascii=False)
     comm_json = json.dumps(comm_list, ensure_ascii=False)
     nc_json = json.dumps(node_comm, ensure_ascii=False)
-
-    # group by community for layout
-    groups = defaultdict(list)
-    for n in nodes:
-        groups[node_comm.get(n["id"], "C0")].append(n)
+    n_comm = len(comm_list)
 
     html_doc = """<!DOCTYPE html>
 <html lang="id"><head><meta charset="utf-8">
@@ -296,7 +292,6 @@ def write_html(out, nodes, edges, node_comm, comm_list):
  .edge{stroke:#334155;stroke-width:1}
  .edge.hl{stroke:#38bdf8;stroke-width:2}
  text{font-size:10px;fill:#cbd5e1;pointer-events:none}
- .comm-label{fill:#94a3b8;font-size:12px;font-weight:bold}
  #info{padding:10px;max-width:600px}
 </style></head>
 <body>
@@ -371,8 +366,6 @@ document.getElementById('q').addEventListener('input',ev=>{
                 .replace("__COMM__", comm_json)
                 .replace("__NC__", nc_json))
     (out / "graph.html").write_text(html_doc, encoding="utf-8")
-
-
 def write_report(out, nodes, edges, comm_list, node_comm, meta):
     deg = Counter()
     for e in edges:

@@ -21,7 +21,9 @@ Ubah folder berisi kode / dokumen / catatan menjadi **knowledge graph** dengan:
 
 Output (ke `graphify-out/`):
 - `graph.json` — graph persisten (query weeks later).
-- `graph.html` — interaktif (SVG, klik node = detail, search box, filter komunitas). Buka di browser.
+- `graph.html` — interaktif **constellation** (Canvas): bintang = node, garis = edge, latar bintang berkelip.
+  Posisi node **statis** (tidak bergerak sendiri) supaya file tetap dikenali; label nama muncul
+  saat **hover / zoom-in (>1.4x) / ketik search / node besar (god node)**. Buka di browser.
 - `GRAPH_REPORT.md` — god nodes, komunitas terbesar, audit edge, pertanyaan yang bisa dijawab.
 
 ## Kapan pakai
@@ -67,6 +69,16 @@ Ganti dengan path absolut saat menjalankan via terminal tool.
 - Edge INFERRED bersifat heuristik; selalu periksa tag sebelum menyimpulkan hubungan.
 - Untuk Python/Ruby/PHP/JS/TS/Go/Java/C#/SQL/Rust ada parser simbol & import. Bahasa lain
   hanya di-level file (tanpa simbol).
+
+## Visualisasi HTML — preferensi user (PENTING)
+JANGAN gunakan layout **force-directed** (node bergerak/tarik-menarik otomatis). Bukti dari
+sesi nyata: user menolak karena "jadi gatau file filenya" — posisi node yang berpindah-pindah
+membuat file tidak bisa dikenali. Pakai **posisi statis** (layout per-komunitas di grid/cluster
+tetap; user masih boleh drag manual, tapi tidak ada simulasi fisika otomatis).
+JANGAN tampilkan **semua label sekaligus** — 808 node jadi berjejalan ("kayak barisan biasa",
+tidak menarik). Label muncul saat **hover / zoom-in / filter / node besar** saja. God node
+(degree tinggi) boleh selalu tampil labelnya. Gerak hanya berupa twinkle (kelap-kelip di tempat),
+bukan perpindahan posisi.
 
 ## Contoh output ringkas ke user
 ```
