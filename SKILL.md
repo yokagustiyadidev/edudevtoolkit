@@ -25,6 +25,9 @@ belajar-mengajar. Enam pilar:
 - **Part D — Building Educational Apps**: rancang & bangun aplikasi/web pembelajaran simpel & berdampak.
 - **Part E — Reasoning & Thinking**: berpikir terstruktur, jawab pertanyaan pedagogik & teknis dengan relevan.
 - **Part F — Kurikulum Merdeka (Indonesia)**: rujukan saat ditanya kebijakan, struktur, & implementasi Kurmer.
+- **Part G — Automation**: catat info dinas → spreadsheet.
+- **Part H — Code Structure Audit (Graphify)**: pahami struktur kode sebelum refactor/audit.
+- **Part I — Web App Security Audit & Hardening**: audit & perbaiki keamanan aplikasi web multi-stack (PHP/Laravel/Next).
 
 Gunakan saat: mengelola akun sekolah, membuat rekap nilai/absen, mengaudit keamanan
 dashboard, menulis/menyederhanakan kode fitur sekolah, mendokumentasikan sistem,
@@ -40,6 +43,7 @@ menjawab soal seputar Kurikulum Merdeka.
 - Merancang/membangun aplikasi atau fitur pembelajaran (Part D).
 - Menjawab pertanyaan guru/siswa dengan penalaran jelas & relevan (Part E).
 - Menjawab pertanyaan seputar Kurikulum Merdeka (Part F).
+- Mengaudit/memperbaiki keamanan sistem web sekolah lintas stack (Part I).
 
 ======================================================================
 ## PART A — SCHOOL OPERATIONS
@@ -345,10 +349,96 @@ seperti package asli). Ekstrak teks/kode/markdown; PDF & gambar tidak dibaca.
 Community detection pakai union-find (cluster kasar), bukan Leiden.
 
 ======================================================================
+## PART I — WEB APP SECURITY AUDIT & HARDENING (multi-stack)
+======================================================================
+Rujukan masa depan saat mengaudit/mengunci sistem web sekolah. Berlaku lintas
+stack: **PHP native (dashboard CBT)**, **Laravel+Filament (checklistharian)**,
+**Next.js+Prisma (dashboardadmin)**. Dari pekerjaan nyata yang sudah diverifikasi.
+
+Gunakan saat user minta "scan keamanan", "periksa menyeluruh front/back",
+"masih ada yang bocor?", "perbaiki celah keamanan".
+
+### Prinsip audit (validasi)
+1. **Scan berbasis kode (static), lalu verifikasi runtime nyata.** Jangan cuma
+   klaim "sudah aman". Bukti = hasil HTTP curl, type-check, build, query test.
+2. **Jangan eksekusi dulu kecuali minta.** Audit = baca, lapor, beri skor.
+   Fix = backup → staging → test → deploy live → verifikasi.
+3. **Jangan eksekusi exploit ke DB live** (etis + read-only saat audit).
+   Cukup buktikan via struktur kode + test non-destruktif (query aman, curl).
+4. Skor 1-100 itu perkiraan jujur, bukan angka presisi. Beri alasan berbasis temuan.
+
+### Kategori temuan lintas stack
+- **Broken Access Control** (paling sering & paling penting): endpoint/action yang
+  bisa dipanggil tanpa login. Di PHP: handler tanpa `Auth::guard`. Di Laravel:
+  controller tanpa middleware `auth`. Di Next.js: **server action tanpa `getSession()`**
+  — middleware Next hanya proteksi RENDER halaman, BUKAN action.
+- **CSRF**: wajib token di semua POST. Next/Laravel punya otomatis; PHP native
+  biasanya NOL → cek & tambahkan `requireCsrf`/token.
+- **SQLi**: prepared statement wajib. Prisma (Next) & Eloquent (Laravel) sudah
+  parameterized — aman. PHP native rawan interpolasi `"...$_GET..."` → gunakan
+  `mysqli_prepare`/`bind_param` atau escape `intval`/`real_escape_string`.
+- **XSS**: echo `$_GET/$_POST` harus `htmlspecialchars`. Cek short-echo `<?=` juga.
+- **RCE upload**: finfo MIME whitelist + whitelist ext + rename `uniqid()`. Tanpa
+  whitelist = upload `.php` → RCE.
+- **Secret leak**: `.env`/config di webroot, JWT/API key hardcoded di source,
+  fallback secret publik. Pindahkan env ke luar webroot (`C:/laragon/env/`).
+- **Source/backup leak**: `.bak/.orig/.sql` di webroot → deny di nginx + pindah keluar.
+- **Info leak**: `APP_DEBUG=true` / `display_errors=On` di prod → bocorkan stack
+  trace/path/query. Set production.
+- **Auth kelemahan**: JWT secret fallback hardcoded, middleware cek cookie ADA
+  (bukan valid), `$_SESSION['role']` auto-set tanpa verifikasi.
+
+### Pola verifikasi per stack
+**PHP native (C:/laragon/www/dashboard):**
+- `Auth::guard([...])` + `requireCsrf()` di tiap handler POST.
+- Cek "role auto-set tanpa verifikasi": `grep "portal_role\s*=\s*'murid'"`. Kalau
+  auto-set saat sesi kosong + tanpa `isExamVerified` = bypass (bisa submit tanpa login).
+- SQLi: `grep -rnE '\b(mysqli_query|->query)\s*\(\$conn, ".*\$_(GET|POST)' public/`.
+- Nginx: deny `.bak*`, deny `uploads/*.php*`, deny `/debug/`, header keamanan.
+
+**Laravel (C:/laragon/www/checklistharian):**
+- `.env` aktif di luar webroot; cek `config:show app.debug/app.env`.
+- Route custom perlu middleware `auth` + `authorizeUser()` (abort 403).
+- `prisma generate`/`php artisan` dijalankan lewat binary Laragon
+  (`C:/laragon/bin/php/php-8.3.32-Win32-vs16-x64/php.exe`), bukan `php` di PATH.
+
+**Next.js (C:/laragon/www/dashboardadmin):**
+- `.env` = symlink → `C:/laragon/env/*.env`. JWT via `jose`, cookie httpOnly.
+- **Kritikal: server actions TIDAK dilewatkan middleware.** Semua
+  `src/actions/*.action.ts` WAJIB mulai dengan guard `requireAuth()` (helper
+  terpusat di `src/lib/require-auth.ts`), lalu role guard utk fungsi admin.
+- Middleware wajib verifikasi JWT (`jose.jwtVerify`), bukan cuma cek cookie ada.
+- JANGAN ada fallback secret hardcoded (`process.env.JWT_SECRET || "..."`) —
+  crash-loud bila env kosong.
+- Prisma client harus di-generate (`npx prisma generate`) SEBELUM `next build`,
+  lalu `rm -rf .next` + rebuild fresh + restart, supaya bundle tidak memakai
+  client/field lama (sumber error "Unknown field").
+
+### Langkah fix yang aman (terverifikasi)
+1. **Backup penuh** ke `C:/laragon/backups/<app>-<fix>/<TS>/` (folder sumber
+   + env), verifikasi identik (`cmp`).
+2. Ubah bertahap; `php -l` (PHP) / `npx tsc --noEmit` + `npm run build` (Next).
+3. Restart server; buktikan via HTTP: halaman tanpa sesi → redirect login,
+   domain publik (tunnel cloudflared) → 200.
+4. Untuk Next: urutan benar **`prisma generate` → `rm -rf .next` → `next build`
+   → restart**. Log fresh harus 0 error ("Unknown field" = client-prisma tak
+   ter-update/build memakai cache).
+5. Konfirmasi eksplisit ke user bahwa fix BENAR masuk live (bukan cuma staging).
+
+### Pitfalls khusus Windows/Laragon
+- `php`/`mysql`/`node` mungkin tak di PATH di bash; pakai binary Laragon lengkap
+  (`C:/laragon/bin/php/php-8.3.32-Win32-vs16-x64/php.exe`, mysql di `bin/mysql/`).
+- `taskkill //F` di MSYS jadi path; pakai `cmd /c "taskkill /F /PID <pid>"`.
+- `next start` restart: kill PID port, lalu `background=true` start ulang.
+- Server dashboardadmin/node TIDAK auto-start setelah reboot → wajib start manual
+  (atau pasang PM2/Task Scheduler) — ingatkan user.
+
+======================================================================
 ## Catatan Penggunaan
 ======================================================================
-- Enam pilar independen: pakai yang relevan. CRUD akun → A1. Refactor → B. Catat → C.
-  Bangun app → D. Jawab pertanyaan → E. Kurmer → F.
+- Bagian-bagian independen: pakai yang relevan. CRUD akun → A1. Refactor → B.
+  Catat → C. Bangun app → D. Jawab pertanyaan → E. Kurmer → F. Info dinas → G.
+  Struktur kode → H. Audit keamanan → I.
 - Semua contoh generik (PHP/MySQL). Sesuaikan nama tabel/kolom dengan sistemmu.
 - Keamanan & backup mutlak di Part A; jangan "ponytail" away validasi/backup.
 - Part E berlaku untuk semua pilar: jawab langsung, beri langkah konkret, sebut batas.
@@ -363,6 +453,9 @@ File pendukung siap pakai (copy-paste, lalu sesuaikan):
   `tb_hasil`/`tb_absen` (InnoDB, utf8mb4, FK). Dasar untuk Part A1/A2.
 - `references/security_checklist.md` — checklist audit keamanan dashboard (Part A3).
   Centang tiap item sebelum rilis / setelah perubahan.
+- `references/security-audit-multi-stack.md` — temuan & prosedur nyata audit 3 stack
+  (PHP/Laravel/Next): broken access control, CSRF, SQLi, RCE upload, secret leak,
+  info leak, dan urutan fix Prisma/Next. Rujukan lengkap untuk Part I.
 - `references/ponytail_examples.md` — before/after refactor kode sekolah (Part B).
 - `references/kurikulum_merdeka.md` — ringkasan konsep & istilah Kurmer untuk rujukan cepat (Part F).
 - `references/build_app_checklist.md` — checklist rancang & bangun aplikasi edukasi (Part D).
