@@ -1,7 +1,7 @@
 ---
 name: edu-dev-toolkit
 description: "Educator toolkit: school ops, build apps, reasoning, Kurikulum Merdeka."
-version: "2.3.0"
+version: "2.4.0"
 author: Hermes Agent
 license: MIT
 hermes:
@@ -17,7 +17,7 @@ category: edu-dev
 # Edu Dev Toolkit
 
 Toolkit terpadu untuk pendidik yang merawat sistem web sekolah DAN membantu proses
-belajar-mengajar. Enam pilar:
+belajar-mengajar. Sepuluh pilar:
 
 - **Part A — School Operations**: kelola akun guru/staf, buat laporan, jalankan dashboard aman.
 - **Part B — Build Simply (Ponytail)**: filosofi kode paling pendek yang tetap bekerja.
@@ -28,6 +28,7 @@ belajar-mengajar. Enam pilar:
 - **Part G — Automation**: catat info dinas → spreadsheet.
 - **Part H — Code Structure Audit (Graphify)**: pahami struktur kode sebelum refactor/audit.
 - **Part I — Web App Security Audit & Hardening**: audit & perbaiki keamanan aplikasi web multi-stack (PHP/Laravel/Next).
+- **Part J — Hostinger Remote via SSH/SFTP**: kendalikan hosting sekolah dari Telegram tanpa kirim password di chat.
 
 Gunakan saat: mengelola akun sekolah, membuat rekap nilai/absen, mengaudit keamanan
 dashboard, menulis/menyederhanakan kode fitur sekolah, mendokumentasikan sistem,
@@ -43,7 +44,10 @@ menjawab soal seputar Kurikulum Merdeka.
 - Merancang/membangun aplikasi atau fitur pembelajaran (Part D).
 - Menjawab pertanyaan guru/siswa dengan penalaran jelas & relevan (Part E).
 - Menjawab pertanyaan seputar Kurikulum Merdeka (Part F).
+- Mencatat info dari Dinas Pendidikan/Kemendikdasmen ke spreadsheet (Part G).
+- Memetakan struktur kode sebelum refactor/audit (Part H / Graphify).
 - Mengaudit/memperbaiki keamanan sistem web sekolah lintas stack (Part I).
+- Mengelola hosting sekolah via SSH/SFTP tanpa kredensial di chat (Part J).
 
 ======================================================================
 ## PART A — SCHOOL OPERATIONS
@@ -269,13 +273,14 @@ satu spreadsheet Excel (.xlsx) lokal — bukan cuma ngobrol lalu lupa.
 3. Script append 1 baris ke `info_dinas.xlsx` (buat file + header bila belum ada).
 4. Hermes balas konfirmasi: `Tercatat no #N: <isi>`.
 
-### Script: `scripts/catat_info_dinas.py`
-- Input: JSON di stdin. Field: `isi` (wajib), `tanggal_info`, `sumber`,
-  `kategori`, `tindak_lanjut`, `status`, `pj`, `xlsx` (override path).
-  Bukan JSON → seluruh teks dianggap `isi`.
-- Output: JSON `{"ok":true,"no":N,"path":"...","tanggal_catat":"..."}`.
-- Path default: env `INFO_DINAS_XLSX` atau `D:/2026-2027/info_dinas.xlsx`.
-- Dependency: `openpyxl` (sudah ada di venv Hermes). Tidak perlu cloud.
+- Script: `scripts/catat_info_dinas.py`
+  - Input: JSON di stdin. Field: `isi` (wajib), `tanggal_info`, `sumber`,
+    `kategori`, `tindak_lanjut`, `status`, `pj`, `xlsx` (override path).
+    Bukan JSON → seluruh teks dianggap `isi`.
+  - Output: JSON `{"ok":true,"no":N,"path":"...","tanggal_catat":"..."}`.
+  - Path default: env `INFO_DINAS_XLSX` atau `D:/2026-2027/info_dinas.xlsx`.
+  - Self-check: `python scripts/catat_info_dinas.py --self-check` — uji append+header+nomor urut ke file temp.
+  - Dependency: `openpyxl` (sudah ada di venv Hermes). Tidak perlu cloud.
 
 Kolom sheet: `No | Tanggal Catat | Tanggal Info | Sumber | Kategori |
 Isi Info | Tindak Lanjut | Status | PJ`.
@@ -295,6 +300,7 @@ ke sheet yang sama.
   - `python scripts/scrape_dinas.py` — tulis item baru ke xlsx (dedup otomatis).
   - `python scripts/scrape_dinas.py --config path.json` — pakai config lain.
   - `python scripts/scrape_dinas.py --list` — list sumber terkonfigurasi.
+  - `python scripts/scrape_dinas.py --self-check` — uji ekstraksi+URL join+dedup dengan fixture offline.
 - Konfigurasi: `dinas_sources.example.json` (salin jadi `dinas_sources.json`,
   isi `url` + selektor `container/title/date/summary` sesuai struktur situs).
   Tiap sumber = 1 entry JSON array. Cocok untuk dinas yang **hanya punya halaman
@@ -434,11 +440,60 @@ Gunakan saat user minta "scan keamanan", "periksa menyeluruh front/back",
   (atau pasang PM2/Task Scheduler) — ingatkan user.
 
 ======================================================================
+## PART J — Hostinger Remote via SSH/SFTP (Hermes Tetap di Laptop)
+Hermes tetap jalan di laptop Windows, kendalikan Hostinger dari Telegram via `ssh`/`scp` tanpa kirim password di chat. Pola terverifikasi 2026-09-10 (Shared Hosting port 65002, user u975437577, host 145.79.9.13, key ed25519 `hermes-laptop`).
+
+### J1. Aktifkan SSH di hPanel
+1. `hpanel.hostinger.com` → Websites → Kelola → Lanjutan → Akses SSH.
+2. Toggle **SSH Access ON**, catat `Host`, `Port` (Shared=65002 / VPS=22), `Username`, buat **Password SSH** (beda dari login hPanel). Tunggu 1-2 menit setelah create/reset.
+3. Jangan paste IP/username/password asli ke Telegram — history Hermes (`state.db`/`sessions/*.jsonl`) + server Telegram menyimpan plaintext permanen.
+
+### J2. Setup Key Sekali (di CMD Windows, BUKAN di Telegram)
+Jalankan di `C:\Users\...\>` (bukan di shell `welcome` Hostinger — `exit` dulu):
+```bash
+ssh -p 65002 USER@HOST              # tes password sekali, harus keluar welcome
+exit
+ssh-keygen -t ed25519 -f %USERPROFILE%\.ssh\hostinger -C "hermes-laptop" -N ""
+type %USERPROFILE%\.ssh\hostinger.pub   # PowerShell: type $env:USERPROFILE\.ssh\hostinger.pub
+```
+Copy baris `ssh-ed25519 AAAA... hermes-laptop` → hPanel → Manage SSH Keys → Add Key. Tunggu 1-2 menit sinkron.
+
+Pitfall: `notepad %USERPROFILE%\.ssh\config` menyimpan jadi `config.txt` → alias gagal `could not resolve hostname`. Pastikan file namanya `config` tanpa ekstensi (`mv ~/.ssh/config.txt ~/.ssh/config`).
+
+### J3. Alias `hostinger` (biar `ssh hostinger "..."` pendek)
+File `~/.ssh/config` (tanpa .txt):
+```
+Host hostinger
+  HostName 145.79.9.13
+  Port 65002
+  User u975437577
+  IdentityFile ~/.ssh/hostinger
+```
+Verifikasi:
+```bash
+ssh -i %USERPROFILE%\.ssh\hostinger -p 65002 USER@HOST "echo konek; pwd"
+ssh hostinger "pwd; ls -la domains/"
+# harus tanpa minta password
+scp -P 65002 hostinger:~/domains/abuseno.sch.id/public_html/database.sql "%USERPROFILE%\OneDrive\Desktop\"
+```
+
+### J4. Pola Pakai Hermes via Telegram (tanpa kredensial di chat)
+Setelah J2-J3, Hermes bisa `ssh hostinger "..."` / `scp` di background tanpa password:
+- Cek: `ssh hostinger "ls -la domains/abuseno.sch.id/public_html; php -v; du -sh domains/abuseno.sch.id/public_html"`
+- Upload lokal→Hostinger: `scp "D:/file.zip" hostinger:~/domains/abuseno.sch.id/public_html/upload/`
+- Download Hostinger→lokal: `scp hostinger:~/domains/abuseno.sch.id/public_html/database.sql "D:/backup/"`
+- Full backup: `scp -r -P 65002 hostinger:~/domains/abuseno.sch.id/public_html "D:/hostinger_abuseno_backup_2026-09-10/"` (backup 2026-09-10: 382M di D:/hostinger_abuseno_backup_2026-09-10/public_html)
+- Debug: `ssh hostinger "php -l domains/.../index.php; tail -n 100 .logs/error_log; curl -I https://abuseno.sch.id/"`
+- Edit aman: pull → `php -l` → edit lokal → `scp` balik → verifikasi `ssh hostinger "ls -lh ..."`.
+
+Keamanan: kirim file via attach Telegram atau sebut path lokal `D:\...` — Hermes yang `scp`. Jangan pernah ketik private key / password di Telegram; kalau terlanjur → reset di hPanel.
+
+======================================================================
 ## Catatan Penggunaan
 ======================================================================
 - Bagian-bagian independen: pakai yang relevan. CRUD akun → A1. Refactor → B.
   Catat → C. Bangun app → D. Jawab pertanyaan → E. Kurmer → F. Info dinas → G.
-  Struktur kode → H. Audit keamanan → I.
+  Struktur kode → H. Audit keamanan → I. Remote hosting → J.
 - Semua contoh generik (PHP/MySQL). Sesuaikan nama tabel/kolom dengan sistemmu.
 - Keamanan & backup mutlak di Part A; jangan "ponytail" away validasi/backup.
 - Part E berlaku untuk semua pilar: jawab langsung, beri langkah konkret, sebut batas.
@@ -459,7 +514,7 @@ File pendukung siap pakai (copy-paste, lalu sesuaikan):
 - `references/ponytail_examples.md` — before/after refactor kode sekolah (Part B).
 - `references/kurikulum_merdeka.md` — ringkasan konsep & istilah Kurmer untuk rujukan cepat (Part F).
 - `references/build_app_checklist.md` — checklist rancang & bangun aplikasi edukasi (Part D).
-- `references/prompt_tendik.md` — 10 prompt siap-salin berbahasa Indonesia untuk
+- `references/prompt_tendik.md` — 14 prompt siap-salin berbahasa Indonesia untuk
   tendik non-teknis (copy-paste ke Hermes, skill jalan otomatis).
 
 ### templates/

@@ -1,11 +1,25 @@
 [
   {
-    "name": "Disdik Provinsi X",
+    "name": "Disdik Provinsi X (dengan container + tanggal)",
     "url": "https://disdik.example.go.id/pengumuman",
     "container": {"tag": "div", "class": "artikel"},
     "title":     {"tag": "a"},
     "date":      {"tag": "span", "class": "tanggal"},
     "summary":   {"tag": "p", "class": "ringkas"},
     "kategori":  "Surat Edaran"
+  },
+  {
+    "name": "Kemendikdasmen (tanpa container, judul = link saja)",
+    "url": "https://kemdikdasmen.example.go.id/surat-edaran",
+    "title":    {"tag": "a", "class": "judul-link"},
+    "kategori": "Juknis"
+  },
+  {
+    "name": "Dinas Kabupaten (container + tanggal, tanpa summary)",
+    "url": "https://disdik-kab.example.go.id/info",
+    "container": {"tag": "li", "class": "news-item"},
+    "title":     {"tag": "a"},
+    "date":      {"tag": "time"},
+    "kategori":  "Lainnya"
   }
 ]

@@ -32,3 +32,14 @@ Centang sebelum & sesudah membangun fitur/aplikasi pembelajaran. Gandeng Part B
 - LMS lengkap padahal butuh 1 form (YAGNI).
 - Ganti framework hanya demi tren → tak ada yang bisa rawat.
 - UI buat developer, bukan guru SD.
+
+## Aksesibilitas (untuk semua pengguna, termasuk guru/siswa dengan keterbatasan)
+- [ ] Tombol cukup besar untuk layar sentuh SD (min 44x44 px)
+- [ ] Kontras warna teks vs latar minimal 4.5:1 (cek di WebAIM Contrast Checker)
+- [ ] Semua form punya `<label>` yang terhubung ke `<input>` (`for`/`id` match)
+- [ ] Pesan error bisa dibaca oleh screen reader (`role="alert"` atau `aria-live`)
+- [ ] Navigasi keyboard berfungsi (Tab urut logis, Enter/Space trigger tombol)
+- [ ] Jangan andalkan warna saja untuk status (tambah ikon/teks: "✓ Simpan" bukan cuma hijau)
+- [ ] Font minimal 16px untuk teks body (baca siswa SD)
+- [ ] Hindari efek berkedip/berpindah cepat (bisa picu seizures) — animasi hanya untuk feedback
+- [ ] Bahasa sederhana, hindari jargon teknis — target pengguna adalah guru/siswa SD

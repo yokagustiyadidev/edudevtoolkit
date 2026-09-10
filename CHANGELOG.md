@@ -1,5 +1,33 @@
 # Changelog
 
+## [2.4.0] - 2026-09-10
+### Added
+- **SKILL.md**: Part J (Hostinger Remote via SSH/SFTP) kini tercantum di intro,
+  When-to-Use, dan Catatan Penggunaan. Intro "Enam pilar" → "Sepuluh pilar".
+- **prompt_tendik.md**: 4 prompt baru (no. 11-14) untuk Part G (info dinas),
+  Part H (graphify), Part I (audit multi-stack), Part J (remote hosting).
+  Total 10 → 14 prompt siap-salin.
+- **report_nilai.sql**: query 4 (rekap gabungan semua mapel per siswa dengan
+  LEFT JOIN + CROSS JOIN) dan query 5 (ranking kelas dengan window function).
+- **security_checklist.md**: section multi-stack (Laravel/Next.js) untuk
+  autentikasi, CSRF, SQLi, XSS, RCE, secret leak, operasional.
+- **build_app_checklist.md**: section aksesibilitas (9 item: kontras, keyboard,
+  screen reader, font size, dll).
+- **dinas_sources.example.json**: 3 variasi contoh (dengan/tanpa container,
+  dengan/tanpa date/summary).
+- **catat_info_dinas.py**: self-check (`--self-check`), error handling
+  `PermissionError` (file terkunci), validasi `isi` non-empty, error exit code.
+- **scrape_dinas.py**: self-check (`--self-check`) dengan fixture offline,
+  relative URL join (`urljoin`), perbaikan container children logic
+  (`descendants()` alih-alih `children`).
+
+### Changed
+- **README.md**: sinkronisasi 10 pilar (A-J), struktur tree lengkap dengan
+  semua file (tests_fixture, CHANGELOG, CONTRIBUTING, SECURITY, dll).
+- **CARA_PAKAI_TENDIK.md**: 6 pilar → 10 pilar, tabel pilar, contoh perintah
+  G-J, section troubleshooting script.
+- Version → 2.4.0.
+
 ## [2.3.0] - 2026-09-07
 ### Added
 - **Part H — Code Structure Audit (Graphify)**. Bundle skill `graphify` (knowledge-graph

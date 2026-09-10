@@ -9,7 +9,23 @@ programmer. Tidak perlu paham coding. Ikuti langkah nomor saja.
 
 Kumpulan "cara kerja" untuk Hermes Agent supaya bisa bantu kerjaan sekolah:
 tambah akun guru, rekap nilai, audit keamanan dashboard, bikin modul ajar
-Kurikulum Merdeka, dan menjawab pertanyaan guru/siswa secara rasional.
+Kurikulum Merdeka, catat info dinas, peta struktur kode, remote hosting,
+dan menjawab pertanyaan guru/siswa secara rasional.
+
+Toolkit ini punya 10 pilar (A sampai J):
+
+| Pilar | Untuk apa |
+|-------|-----------|
+| A — School Operations | Kelola akun, rekap nilai/absen, dashboard |
+| B — Ponytail | Sederhanakan kode yang ruwet |
+| C — Obsidian | Catat SOP/dokumentasi |
+| D — Build Apps | Bikin aplikasi pembelajaran |
+| E — Reasoning | Jawab pertanyaan guru/siswa |
+| F — Kurikulum Merdeka | Rujukan kebijakan Kurmer |
+| G — Info Dinas | Catat info dinas ke spreadsheet |
+| H — Graphify | Peta hubungan kode sekolah |
+| I — Security Audit | Audit keamanan multi-stack |
+| J — Hostinger Remote | Kendalikan hosting via SSH |
 
 Toolkit ini bukan aplikasi dengan tombol klik. Ia adalah "buku pintar" yang
 dibaca Hermes saat kamu memberi perintah. Jadi kamu butuh Hermes sebagai
@@ -48,12 +64,18 @@ Contoh langsung:
 
     Audit keamanan dashboard ujian sekolah kami.
 
+    Catat info dinas: Surat edaran UN mendatang dari Kemendikdasmen.
+
+    Buat graph dari folder dashboard untuk lihat file yang paling banyak dipakai.
+
+    Cek status hosting sekolah via SSH alias hostinger.
+
 ---
 
 ## 4. Malas mikir kata? Pakai prompt siap-salin
 
-Buka file `references/prompt_tendik.md`. Di sana ada 10 blok perintah siap
-pakai. Copy satu blok, ganti teks dalam [ ], lalu kirim ke Hermes. Selesai.
+Buka file `references/prompt_tendik.md`. Di sana ada 14 blok perintah siap
+pakai (copy-paste ke Hermes, ganti teks dalam [ ]). Selesai.
 
 ---
 
@@ -63,6 +85,9 @@ pakai. Copy satu blok, ganti teks dalam [ ], lalu kirim ke Hermes. Selesai.
 - Data sensitif tetap di server sekolah; Hermes hanya memproses perintah.
 - Template butuh koneksi database yang sudah diatur admin IT di awal.
   Tendik tidak perlu mengatur sendiri.
+- Untuk SSH/hosting (Part J): kredensial sudah disimpan di laptop (key-based).
+  Tidak perlu ketik password di chat. Cukup sebut "ssh hostinger" atau pakai
+  prompt no. 14.
 
 ---
 
@@ -71,6 +96,10 @@ pakai. Copy satu blok, ganti teks dalam [ ], lalu kirim ke Hermes. Selesai.
 - Hermes tidak paham perintah? Ulangi dengan kalimat lebih jelas, sebut
   mapel/kelas/nama dengan spesifik.
 - Hasil tidak keluar? Pastikan folder skill sudah benar di `skills/`.
+- Script info dinas error? Cek: file Excel sedang dibuka di aplikasi lain
+  (tutup dulu), atau install openpyxl (`pip install openpyxl`).
+- Scraper dinas tidak ketemu item? Struktur situs mungkin berubah — minta
+  admin IT kalibrasi ulang selektor di `dinas_sources.json`.
 - Butuh fitur baru? Minta admin IT atau buat issue di GitHub repo ini.
 
 ---

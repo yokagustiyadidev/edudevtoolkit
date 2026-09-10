@@ -106,6 +106,49 @@ Salin ke Hermes:
     Ingatkan untuk verifikasi ke platform resmi Kemdikbud.
 
 ======================================================================
+## 11. Catat info dari Dinas Pendidikan ke spreadsheet
+----------------------------------------------------------------------
+Salin ke Hermes:
+
+    Catat info dinas: [isi surat/pengumuman]. Sumber [Dinas Pendidikan
+    Kota/Kabupaten atau Kemendikdasmen], kategori [Surat Edaran / Juknis /
+    Lomba / Kalender], tanggal info [DD-MM-YYYY]. Tindak lanjut [kosongkan
+    bila belum tahu]. PJ [nama penanggung jawab, kosongkan bila belum tahu].
+    Pakai script catat_info_dinas.py dari skill edu-dev-toolkit Part G.
+
+======================================================================
+## 12. Peta struktur kode sekolah (graphify)
+----------------------------------------------------------------------
+Salin ke Hermes:
+
+    Buat knowledge graph dari folder [C:/laragon/www/dashboard] atau
+    [C:/laragon/www/checklistharian]. Pakai graphify dari skill edu-dev-toolkit
+    Part H. Saya mau lihat: god node (file yang paling banyak di-import),
+    komunitas terisolasi, dan edge yang ambigu. Mode deep.
+
+======================================================================
+## 13. Audit keamanan multi-stack (PHP + Laravel + Next.js)
+----------------------------------------------------------------------
+Salin ke Hermes:
+
+    Audit keamanan menyeluruh untuk sistem web sekolah kami. Cek 3 stack:
+    dashboard CBT (PHP native di [C:/laragon/www/dashboard]),
+    checklistharian (Laravel di [C:/laragon/www/checklistharian]),
+    dashboardadmin (Next.js di [C:/laragon/www/dashboardadmin]).
+    Pakai references/security-audit-multi-stack.md dari skill edu-dev-toolkit
+    Part I. Beri skor per temuan, bukti (status code/grep), dan prioritas fix.
+
+======================================================================
+## 14. Remote hosting sekolah via SSH (tanpa password di chat)
+----------------------------------------------------------------------
+Salin ke Hermes:
+
+    Cek status hosting sekolah via SSH. Pakai alias 'hostinger' yang sudah
+    ada (key-based, tanpa password). Jalankan: cek disk space, versi PHP,
+    daftar domain, ukuran folder public_html, dan tail error_log 50 baris
+    terakhir. Domain utama: abuseno.sch.id. Rujuk Part J skill edu-dev-toolkit.
+
+======================================================================
 CATATAN KEAMANAN (baca sebelum pakai):
 - Jangan tempel password asli / NIK / data siswa ke chat publik.
 - Prompt di atas hanya instruksi ke Hermes; data sensitif tetap di server sekolah.

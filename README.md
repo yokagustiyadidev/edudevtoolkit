@@ -1,7 +1,7 @@
 # Edu Dev Toolkit
 
 Toolkit terpadu untuk **pendidik yang merawat sistem web sekolah DAN membantu proses
-belajar-mengajar**. Enam pilar dalam satu skill:
+belajar-mengajar**. Sepuluh pilar dalam satu skill:
 
 | Pilar | Isi |
 |-------|-----|
@@ -12,40 +12,57 @@ belajar-mengajar**. Enam pilar dalam satu skill:
 | **Part E — Reasoning & Thinking** | Berpikir terstruktur, jawab pertanyaan pedagogik & teknis dengan relevan |
 | **Part F — Kurikulum Merdeka (Indonesia)** | Rujukan kebijakan, struktur, & implementasi Kurmer |
 | **Part G — Automation (Info Dinas → Spreadsheet)** | Catat info Dinas/Kemendikdasmen ke Excel lokal otomatis |
+| **Part H — Code Structure Audit (Graphify)** | Ubah folder kode jadi knowledge graph (god nodes, komunitas) |
+| **Part I — Web App Security Audit & Hardening** | Audit & perbaiki keamanan multi-stack: PHP native, Laravel, Next.js |
+| **Part J — Hostinger Remote via SSH/SFTP** | Kendalikan hosting sekolah dari Telegram tanpa kredensial di chat |
 
 Contoh kasus: kelola akun guru, buat rekap nilai, audit keamanan dashboard, refactor
 kode sekolah, dokumentasikan SOP, bangun aplikasi pembelajaran, jawab pertanyaan guru/
-siswa secara rasional, atau menjawab soal seputar Kurikulum Merdeka.
+siswa secara rasional, catat info dinas, peta struktur kode, atau kelola hosting via SSH.
 
 ## Struktur
 
 ```
 edu-dev-toolkit/
-├── SKILL.md                      # Panduan utama (6 pilar)
-├── LICENSE                      # MIT
+├── SKILL.md                      # Panduan utama (10 pilar: A-J)
+├── LICENSE                       # MIT
 ├── README.md                    # File ini
+├── CHANGELOG.md                 # Riwayat versi
+├── CONTRIBUTING.md              # Panduan kontribusi + standar wajib
+├── SECURITY.md                  # Kebijakan pelaporan kerentanan
+├── CARA_PAKAI_TENDIK.md         # Panduan 1 halaman untuk tendik non-teknis
+├── .gitignore
+├── dinas_sources.example.json   # Contoh konfigurasi sumber scrape (Part G)
 ├── references/
-│   ├── db_schema.sql            # Skema tb_users / tb_siswa / tb_mapel / tb_hasil / tb_absen
-│   ├── security_checklist.md    # Checklist audit keamanan dashboard
-│   ├── ponytail_examples.md     # Contoh refactor kode sekolah (before/after)
-│   ├── kurikulum_merdeka.md     # Ringkasan konsep & istilah Kurmer (Part F)
+│   ├── db_schema.sql             # Skema tb_users/tb_siswa/tb_mapel/tb_hasil/tb_absen
+│   ├── security_checklist.md    # Checklist audit keamanan dashboard (Part A3 + multi-stack)
+│   ├── security-audit-multi-stack.md # Temuan & prosedur nyata audit 3 stack (Part I)
+│   ├── ponytail_examples.md     # Contoh refactor kode sekolah (before/after, Part B)
+│   ├── kurikulum_merdeka.md      # Ringkasan konsep & istilah Kurmer (Part F)
 │   ├── build_app_checklist.md   # Checklist rancang & bangun aplikasi edukasi (Part D)
-│   └── prompt_tendik.md         # 10 prompt siap-salin untuk tendik non-teknis
+│   └── prompt_tendik.md          # 14 prompt siap-salin untuk tendik non-teknis
 ├── scripts/
-│   ├── catat_info_dinas.py      # (Part G) append info dinas ke Excel (.xlsx) lokal
-│   └── scrape_dinas.py          # (Part G) auto-scrape pengumuman web dinas -> xlsx
+│   ├── catat_info_dinas.py       # (Part G) append info dinas ke Excel (.xlsx) lokal
+│   ├── scrape_dinas.py           # (Part G) auto-scrape pengumuman web dinas -> xlsx
+│   └── .scrape_state.json        # State dedup scraper (auto-generated)
 ├── bundled/
-│   └── graphify/                # (Part H) knowledge-graph builder (stdlib, no pip)
+│   └── graphify/                 # (Part H) knowledge-graph builder (stdlib, no pip)
 │       ├── SKILL.md
-│       └── graphify.py
-├── dinas_sources.example.json   # Contoh konfigurasi sumber scrape
-└── templates/
-    ├── user_crud.php            # Template CRUD akun guru/staf (prepared stmt + CSRF + guard)
-    ├── report_nilai.sql         # Query rekap nilai berbobot & absen
-    ├── obsidian_note.md         # Template catatan audit/SOP Obsidian
-    ├── modul_ajar.md            # Template modul ajar / TP Kurikulum Merdeka (Part F)
-    ├── Modul_Ajar_Informatika_Kelas6.docx  # Contoh hasil: modul Informatika Kelas 6
-    └── modul_ajar_informatika_spec.json    # Spec generator modul di atas
+│       ├── graphify.py
+│       └── dashboard_graph/      # Contoh output graph
+│           ├── graph.json
+│           ├── graph.html
+│           └── GRAPH_REPORT.md
+├── templates/
+│   ├── user_crud.php             # Template CRUD akun guru/staf (prepared stmt + CSRF + guard)
+│   ├── report_nilai.sql          # Query rekap nilai berbobot & absen
+│   ├── obsidian_note.md          # Template catatan audit/SOP Obsidian
+│   ├── modul_ajar.md             # Template modul ajar / TP Kurikulum Merdeka (Part F)
+│   ├── Modul_Ajar_Informatika_Kelas6.docx  # Contoh hasil: modul Informatika Kelas 6
+│   └── modul_ajar_informatika_spec.json    # Spec generator modul di atas
+└── tests_fixture/                # Fixture untuk uji scraper offline
+    ├── dinas_sample.html
+    └── dinas_sources_fixture.json
 ```
 
 ## Cara Pakai (di Hermes Agent)
@@ -53,14 +70,15 @@ edu-dev-toolkit/
 1. Letakkan folder `edu-dev-toolkit/` di dalam direktori `skills/` profil Hermes
    (mis. `~/.hermes/skills/edu-dev-toolkit/`).
 2. Skill otomatis ke-load saat tugas terkait muncul (kelola akun, laporan, audit,
-   refactor kode sekolah, catatan Obsidian, bangun app, Kurikulum Merdeka).
+   refactor kode sekolah, catatan Obsidian, bangun app, Kurikulum Merdeka, info dinas,
+   graph struktur kode, remote hosting).
 3. Saat butuh detail, Hermes membaca file di `references/` dan `templates/`.
 
 ## Dokumentasi untuk Tendik (Non-Teknis)
 
 - `CARA_PAKAI_TENDIK.md` — panduan 1 halaman: cara install skill ke Hermes &
   cara memberi perintah sehari-hari. Mulai dari sini kalau bukan programmer.
-- `references/prompt_tendik.md` — 10 prompt siap-salin (copy-paste ke Hermes,
+- `references/prompt_tendik.md` — 14 prompt siap-salin (copy-paste ke Hermes,
   ganti teks dalam [ ]).
 
 ## Catatan
@@ -78,9 +96,9 @@ edu-dev-toolkit/
 
 Lihat `SECURITY.md` untuk cara melapor kerentanan dan standar keamanan yang
 dijaga (password hash, prepared statement, CSRF, session guard, token ujian
-server-side).
+server-side, multi-stack audit baseline).
 
 ## Kontribusi
 
 Pull request terbuka. Tambahkan `reference`/`template` bila memperluas cakupan
-pendidikan & pengembangan web sekolah.
+pendidikan & pengembangan web sekolah. Baca `CONTRIBUTING.md` untuk standar wajib.

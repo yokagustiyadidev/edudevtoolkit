@@ -9,6 +9,7 @@ Cara pakai:
   python scripts/scrape_dinas.py --dry-run      # hanya tampilkan item yang ketemu, jangan tulis
   python scripts/scrape_dinas.py --config path.json
   python scripts/scrape_dinas.py --list         # list sumber terkonfigurasi
+  python scripts/scrape_dinas.py --self-check   # uji internal dengan fixture
 
 Konfigurasi (dinas_sources.json) — array sumber:
   [
@@ -26,6 +27,7 @@ Konfigurasi (dinas_sources.json) — array sumber:
 - `class` dicocokkan sebagai substring (case-insensitive) dari atribut class.
 - Bila `url` berawalan `file://` atau merupakan path lokal yang ada, dibaca dari
   disk (berguna untuk uji offline / fixture).
+- Relative URL (href="/pengumuman/123") di-join ke base URL sumber otomatis.
 - Dedup: hash (name+title+url) disimpan di .scrape_state.json di folder script.
   Item sudah pernah tercatat tidak ditulis ulang.
 - Tiap item baru dikirim ke catat_info_dinas.py (stdin JSON) -> append ke xlsx.
@@ -38,6 +40,7 @@ import json
 import hashlib
 import subprocess
 import datetime
+from urllib.parse import urljoin, urlparse
 
 try:
     import requests
@@ -52,9 +55,9 @@ STATE_FILE = os.path.join(HERE, ".scrape_state.json")
 CATAT_SCRIPT = os.path.join(HERE, "catat_info_dinas.py")
 
 
-# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------#
 # HTML parsing (minimal, stdlib only)
-# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------#
 class _El:
     def __init__(self, tag, attrs):
         self.tag = tag
@@ -63,6 +66,7 @@ class _El:
         self.href = self.attrs.get("href")
         self.text_parts = []
         self.children = []
+        self.parent = None
 
     @property
     def text(self):
@@ -81,6 +85,12 @@ class _El:
                 return False
         return True
 
+    def descendants(self):
+        """Iterate all descendants (not including self)."""
+        for c in self.children:
+            yield c
+            yield from c.descendants()
+
 
 class _Collector(HTMLParser):
     def __init__(self):
@@ -90,6 +100,7 @@ class _Collector(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         el = _El(tag, attrs)
+        el.parent = self.stack[-1]
         self.stack[-1].children.append(el)
         self.stack.append(el)
 
@@ -132,6 +143,17 @@ def _collect_text_href(node):
     return " ".join(texts).strip(), href
 
 
+def _resolve_url(href, base_url):
+    """Join relative URL ke base. Return href as-is kalau bukan HTTP."""
+    if not href:
+        return ""
+    if href.startswith(("http://", "https://", "mailto:", "tel:", "#")):
+        return href
+    if base_url and base_url.startswith(("http://", "https://")):
+        return urljoin(base_url, href)
+    return href
+
+
 def _extract_items(html, source):
     parser = _Collector()
     parser.feed(html)
@@ -141,17 +163,23 @@ def _extract_items(html, source):
     title_spec = source.get("title", {"tag": "a"})
     date_spec = source.get("date")
     summary_spec = source.get("summary")
+    base_url = source.get("url", "")
 
     if container_spec:
         containers = [e for e in elements if e.match(container_spec)]
+        search_scope_fn = lambda cont: cont.descendants()  # noqa: E31
     else:
-        containers = [parser.root]  # cari di seluruh dokumen
+        containers = [parser.root]
+        # Saat tidak ada container, cari di seluruh dokumen
+        search_scope_fn = lambda cont: elements  # noqa: E31
 
     items = []
     for cont in containers:
+        scope = list(search_scope_fn(cont))
+
         # judul
         title_el = None
-        for e in cont.children if container_spec else elements:
+        for e in scope:
             if e.match(title_spec):
                 title_el = e
                 break
@@ -160,11 +188,12 @@ def _extract_items(html, source):
         title_text, href = _collect_text_href(title_el)
         if not title_text:
             continue
+        href = _resolve_url(href, base_url)
 
         # tanggal
         date_text = ""
         if date_spec:
-            for e in (cont.children if container_spec else elements):
+            for e in scope:
                 if e is title_el:
                     continue
                 if e.match(date_spec):
@@ -174,7 +203,7 @@ def _extract_items(html, source):
         # ringkasan
         summary_text = ""
         if summary_spec:
-            for e in (cont.children if container_spec else elements):
+            for e in scope:
                 if e is title_el:
                     continue
                 if e.match(summary_spec):
@@ -192,9 +221,9 @@ def _extract_items(html, source):
     return items
 
 
-# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------#
 # Fetch
-# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------#
 def _fetch(url, timeout=20):
     if url.startswith("file://"):
         with open(url[7:], encoding="utf-8", errors="replace") as f:
@@ -204,15 +233,15 @@ def _fetch(url, timeout=20):
             return f.read()
     if requests is None:
         raise RuntimeError("module requests tidak tersedia untuk fetch HTTP")
-    headers = {"User-Agent": "Mozilla/5.0 (compatible; EduDevToolkit/2.2)"}
+    headers = {"User-Agent": "Mozilla/5.0 (compatible; EduDevToolkit/2.4)"}
     r = requests.get(url, headers=headers, timeout=timeout)
     r.raise_for_status()
     return r.text
 
 
-# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------#
 # State / dedup
-# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------#
 def _load_state():
     if os.path.exists(STATE_FILE):
         try:
@@ -233,16 +262,18 @@ def _key(item):
     return hashlib.sha1(base.encode("utf-8")).hexdigest()[:16]
 
 
-# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------#
 # Write via catat_info_dinas.py
-# ---------------------------------------------------------------------------
-def _write_item(item):
+# ---------------------------------------------------------------------------#
+def _write_item(item, xlsx_override=None):
     payload = {
         "isi": item["title"] + ((" — " + item["summary"]) if item["summary"] else ""),
         "tanggal_info": item["date"] or "-",
         "sumber": item["sumber"],
         "kategori": item["kategori"],
     }
+    if xlsx_override:
+        payload["xlsx"] = xlsx_override
     p = subprocess.run(
         [sys.executable, CATAT_SCRIPT],
         input=json.dumps(payload, ensure_ascii=False),
@@ -254,9 +285,9 @@ def _write_item(item):
         return {"ok": False, "raw": p.stdout, "err": p.stderr}
 
 
-# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------#
 # Main
-# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------#
 def main():
     args = sys.argv[1:]
     dry_run = "--dry-run" in args
@@ -317,5 +348,54 @@ def main():
     }, ensure_ascii=False, indent=2))
 
 
+# ---------------------------------------------------------------------------#
+# Self-test: jalankan dengan --self-check
+# ---------------------------------------------------------------------------#
+def _self_check():
+    """Uji ekstraksi dengan fixture offline + relative URL join."""
+    fixture_html = os.path.join(HERE, "..", "tests_fixture", "dinas_sample.html")
+    fixture_config = os.path.join(HERE, "..", "tests_fixture", "dinas_sources_fixture.json")
+
+    fixture_html = os.path.normpath(fixture_html)
+    fixture_config = os.path.normpath(fixture_config)
+
+    assert os.path.exists(fixture_html), f"fixture HTML tidak ada: {fixture_html}"
+    assert os.path.exists(fixture_config), f"fixture config tidak ada: {fixture_config}"
+
+    with open(fixture_config, encoding="utf-8") as f:
+        sources = json.load(f)
+
+    # Override URL ke path lokal
+    sources[0]["url"] = fixture_html
+
+    html = _fetch(fixture_html)
+    items = _extract_items(html, sources[0])
+
+    assert len(items) >= 1, f"harusnya ketemu >=1 item, dapat {len(items)}"
+
+    # Cek relative URL join
+    item = items[0]
+    assert item["title"], "judul kosong"
+    assert item["url"], "URL kosong"
+
+    # Cek dedup
+    k1 = _key(item)
+    k2 = _key(item)
+    assert k1 == k2, "key dedup tidak deterministik"
+
+    # Cek resolve relative URL
+    resolved = _resolve_url("/pengumuman/123", "https://disdik.example.go.id/news")
+    assert resolved == "https://disdik.example.go.id/pengumuman/123", \
+        f"relative URL join gagal: {resolved}"
+
+    absolute = _resolve_url("https://other.com/page", "https://disdik.example.go.id")
+    assert absolute == "https://other.com/page", f"absolute URL harus tetap: {absolute}"
+
+    print(f"SELF-CHECK PASSED: {len(items)} item ekstrak, relative URL join benar, dedup deterministik.")
+
+
 if __name__ == "__main__":
-    main()
+    if "--self-check" in sys.argv:
+        _self_check()
+    else:
+        main()
