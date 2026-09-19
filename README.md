@@ -1,7 +1,7 @@
 # Edu Dev Toolkit
 
 Toolkit terpadu untuk **pendidik yang merawat sistem web sekolah DAN membantu proses
-belajar-mengajar**. Sepuluh pilar dalam satu skill:
+belajar-mengajar**. Lima belas pilar dalam satu skill:
 
 | Pilar | Isi |
 |-------|-----|
@@ -15,6 +15,11 @@ belajar-mengajar**. Sepuluh pilar dalam satu skill:
 | **Part H — Code Structure Audit (Graphify)** | Ubah folder kode jadi knowledge graph (god nodes, komunitas) |
 | **Part I — Web App Security Audit & Hardening** | Audit & perbaiki keamanan multi-stack: PHP native, Laravel, Next.js |
 | **Part J — Hostinger Remote via SSH/SFTP** | Kendalikan hosting sekolah dari Telegram tanpa kredensial di chat |
+| **Part K — Systematic Debugging & Testing** | Debug root-cause 4 fase + TDD (red-green-refactor) sebelum klaim fix |
+| **Part L — QA & Verification** | Browser QA (dogfood), verifikasi deliverable HTML terukur, pre-commit review |
+| **Part M — PHP Deploy Packaging** | Paket deploy modul PHP-native ke Hostinger yang aman & terverifikasi |
+| **Part N — Exam Server Ops** | SOP server ujian CBT saat/di luar jam ujian (read-only, 502, health check) |
+| **Part O — Doc & Meeting → Action Items** | Ekstrak kewajiban, deadline, & tindakan dari surat dinas/notulen rapat |
 
 Contoh kasus: kelola akun guru, buat rekap nilai, audit keamanan dashboard, refactor
 kode sekolah, dokumentasikan SOP, bangun aplikasi pembelajaran, jawab pertanyaan guru/
@@ -24,7 +29,7 @@ siswa secara rasional, catat info dinas, peta struktur kode, atau kelola hosting
 
 ```
 edu-dev-toolkit/
-├── SKILL.md                      # Panduan utama (10 pilar: A-J)
+├── SKILL.md                      # Panduan utama (15 pilar: A-O)
 ├── LICENSE                       # MIT
 ├── README.md                    # File ini
 ├── CHANGELOG.md                 # Riwayat versi

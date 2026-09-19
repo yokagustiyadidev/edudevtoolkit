@@ -12,7 +12,7 @@ tambah akun guru, rekap nilai, audit keamanan dashboard, bikin modul ajar
 Kurikulum Merdeka, catat info dinas, peta struktur kode, remote hosting,
 dan menjawab pertanyaan guru/siswa secara rasional.
 
-Toolkit ini punya 10 pilar (A sampai J):
+Toolkit ini punya 15 pilar (A sampai O):
 
 | Pilar | Untuk apa |
 |-------|-----------|
@@ -26,6 +26,11 @@ Toolkit ini punya 10 pilar (A sampai J):
 | H — Graphify | Peta hubungan kode sekolah |
 | I — Security Audit | Audit keamanan multi-stack |
 | J — Hostinger Remote | Kendalikan hosting via SSH |
+| K — Debug & Testing | Telusuri akar masalah + uji sebelum dinyatakan selesai |
+| L — QA & Verifikasi | Cek menyeluruh aplikasi & ukur hasil terukur |
+| M — Deploy Packaging | Kemas modul PHP siap unggah ke hosting |
+| N — Exam Server Ops | Jaga server ujian CBT saat/di luar jam ujian |
+| O — Action Items | Ringkas surat dinas/notulen rapat jadi daftar tindakan |
 
 Toolkit ini bukan aplikasi dengan tombol klik. Ia adalah "buku pintar" yang
 dibaca Hermes saat kamu memberi perintah. Jadi kamu butuh Hermes sebagai

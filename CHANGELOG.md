@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.0.0] - 2026-09-19
+### Added
+- **SKILL.md**: lima bagian baru — Part K (Systematic Debugging & Testing),
+  Part L (QA & Verification), Part M (PHP Deploy Packaging), Part N (Exam
+  Server Ops), Part O (Document & Meeting → Action Items). Intro "Sepuluh
+  pilar" → "Lima belas pilar", When-to-Use dan Catatan Penggunaan diperluas.
+- Frontmatter: bump versi 2.4.0 → 3.0.0; tags & related_skills diperluas
+  (debugging, tdd, qa, deploy, exam-server, action-items).
+
+### Changed
+- **README.md**: tabel pilar A-J → A-O; struktur tree diperbarui; contoh
+  kasus diperluas.
+- **CARA_PAKAI_TENDIK.md**: daftar pilar untuk tendik 10 → 15 (A-O) dengan
+  deskripsi non-teknis.
+
 ## [2.4.0] - 2026-09-10
 ### Added
 - **SKILL.md**: Part J (Hostinger Remote via SSH/SFTP) kini tercantum di intro,
